@@ -24,8 +24,8 @@ const postDateTemplate: Intl.DateTimeFormatOptions = {
 interface LayoutProps {
   content: CoreContent<Blog>;
   authorDetails: CoreContent<Authors>[];
-  next?: { path: string; title: string; };
-  prev?: { path: string; title: string; };
+  next?: { path: string; title: string };
+  prev?: { path: string; title: string };
   children: ReactNode;
 }
 
