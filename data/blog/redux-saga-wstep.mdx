@@ -1,0 +1,269 @@
+---
+title: Redux Saga
+date: '2023-01-12'
+tags: ['redux', 'redux-saga', 'JavaScript', 'TypeScript']
+draft: false
+summary: Redux-Saga to biblioteka umożliwiająca eleganckie i efektywne zarządzanie operacjami asynchronicznymi w aplikacjach opartych na Redux poprzez użycie funkcji generatorowych do definiowania sekwencji akcji i reakcji.
+---
+
+## Redux-Saga - wstęp
+---------------------
+
+Redux-Saga to biblioteka, do obsługi efektów ubocznych (side-effects) w aplikacjach. Przykładowe zastosowanie: asynchroniczne akcjie np. pobieranie danych - zapytania HTTP, dostęp do pamięci podręcznej przeglądarki, zmiana stanu aplikacji etc. Biblioteka Redux-Saga jest middlewarem dla Redux i ma pełen dostęp do stanu aplikacji oraz umożliwia dysponowanie akcjami Redux.
+
+**TL;TR;**
+Redux-Saga to biblioteka umożliwiająca eleganckie i efektywne zarządzanie operacjami asynchronicznymi w aplikacjach opartych na Redux poprzez użycie funkcji generatorowych do definiowania sekwencji akcji i reakcji.
+
+## Jak działa Redux-Saga?
+----------------------
+
+Podczas korzystania z Redux-Sagi, możemy wyobrazić sobie, że nasza aplikacja posiada osobny wątek, który jest odpowiedzialny wyłącznie za efekty uboczne i obsługę akcji.
+
+W praktyce, Redux-Saga umożliwia tworzenie sagi – funkcji generatorowych, które służą do obsługi asynchronicznych akcji. Sagi pozwalają na tworzenie bardziej skomplikowanych sekwencji akcji i reakcji na akcje, co znacznie ułatwia zarządzanie asynchronicznymi operacjami w Redux. Biblioteka ta pozwala na łatwe definiowanie operacji asynchronicznych takich jak żądania HTTP, pobieranie danych z bazy danych, czy operacje na plikach.
+
+Kilka lat temu rozważałem czego użyć w mojej aplikacji do obsługi akcji i zapytań HTTP, ostatecznie wybór padł na redux-thunka
+
+W jednej z moich aplikacji zacząłem używać redux-thunka, wybór padł na to rozwiązanie bo korzystanie z redux-saga wyglądało mi się zbyt skomplikowane. Na szczęście kilka lat później spotkałem kogoś kto wytłumaczył mi jak działa Redux-Saga i zmieniłem podejście do zarządzania stanem w Redux.
+
+Według mnie Redux-Saga to najlepszy middleware dla Redux, dostarcza skalowalność i prostotę. Trudnością może być bariera wejścia i przestawienia na myślenie z użyciem generatorów. Poniżej poruszam kilka ważnych kwestii potrzebnych do wdrożenia Redux-Saga w swoim projekcie.
+
+## Jak wykorzystać Redux-Saga w praktyce?
+--------------------------------------
+
+Aby wykorzystać Redux-Saga w praktyce, należy najpierw zainstalować bibliotekę za pomocą menadżera paczek.
+
+```
+yarn add redux-saga // or
+npm install redux-saga // or
+pnpm install redux-saga
+```
+
+Następnie, należy utworzyć sagi, które będą obsługiwać asynchroniczne operacje w aplikacji. Najpierw tworzymy główną sagę `rootSaga`. Sagę można zdefiniować jako [funkcję generatorową](https://developer.mozilla.org/en-US/docs/Web/JavaScript/Reference/Statements/function*) (function\*) która zawiera słowo kluczowe [yield](https://developer.mozilla.org/en-US/docs/Web/JavaScript/Reference/Operators/yield).
+
+### Tworzymy pierwszą sagę
+
+Poniżej przykład użycia Redux-Saga do obsługi żądań HTTP:
+
+```
+/* src/redux/sagas/mainSaga.ts */
+import { call, put, takeLatest } from 'redux-saga/effects';
+import { fetchUsersApi } from './api';
+
+function* fetchUsersSaga(action) {
+    try {
+    const users = yield call(fetchUsersApi);
+    yield put({ type: 'FETCH_USERS_SUCCESS', payload: users });
+    } catch (error) {
+    yield put({ type: 'FETCH_USERS_FAILURE', error });
+    }
+}
+
+function* watchFetchUsers() {
+    yield takeLatest('FETCH_USERS_REQUEST', fetchUsersSaga);
+}
+
+export default function* rootSaga() {
+    yield all([
+    watchFetchUsers(),
+    ]);
+}
+```    
+
+Jeśli potrzebujemy rozbudować naszą aplikacje i dodamy nowe akcje to tworzymy nową sagę i podpinamy ją do rootSaga. Poniżej przykładowa implementacja sagi do zmiany motywu.
+
+
+```
+import { put } from 'redux-saga/effects';
+import { themeMode } from '../../utils/theme/types';
+import { THEME_MODE_CHANGED } from '../settings/types';
+
+interface IThemeMode {
+    payload: {
+    themeMode: themeMode;
+    };
+    type: typeof THEME_MODE_CHANGED;
+}
+export function* setThemeModeSaga({ payload, type }: IThemeMode) {
+    try {
+    yield put({ type: THEME_MODE_CHANGED, payload });
+    } catch (error: any) {
+    yield console.log('There was an error in the setThemeModeSaga: ', error);
+    }
+}
+
+// Dodanie nowej sagi
+yield [takeLatest(THEME_MODE_CHANGED, setThemeModeSaga)];
+```     
+
+### Dispatch – wywołanie akcji w komponencie
+
+Akcje są wywoływane z komponentu przez **dispatch**, następnie przechwytywane przez middleware Redus-Saga i tam obsługiwane.
+
+```
+    import { useDispatch, useSelector } from 'react-redux';
+    
+    const  UserComponent = (userId: string) => {
+      const dispatch = useDispatch();
+      const users = useSelector((state: any) => state.users); 
+    
+      const handleFetchUser = () => {
+        dispatch({type: 'USER_FETCH_REQUESTED', payload: {userId}})
+      }
+      // ...
+    }
+```
+
+### Dodanie Redux-Saga jako middleware
+
+Dla nowszych wersji należy uruchamiać sagi przy użyciu `configureStore` z `reduxjs/toolkit` zamiast `createStore` z Redux.
+
+```
+    /* src/redux/store.ts */
+    import createSagaMiddleware from 'redux-saga';
+    import mainSaga from './sagas/mainSaga';
+    import rootReducer from './rootReducer';
+    import { configureStore } from '@reduxjs/toolkit';
+    
+    const sagaMiddleware = createSagaMiddleware();
+    
+    export const store = configureStore({
+      reducer: rootReducer,
+      middleware: [sagaMiddleware],
+    });
+    
+    sagaMiddleware.run(mainSaga);
+    
+    export default store;
+```
+
+### Reducery i Store w Redux
+
+Kod naszego głównego reducera (łączy kawałki reducerów jeden Redux Store). To jest fragment związany tylko z Redux.
+
+```
+    /* src/redux/rootReducer.ts */
+    import { combineReducers } from 'redux';
+    import userReducer from './user/user';
+    import settingsReducer from './settings/settings';
+    import itemsReducer from './items/items';
+    
+    const rootReducer = combineReducers({
+      users: usersReducer,
+      items: itemsReducer,
+      settings: settingsReducer,
+    });
+    
+    export default rootReducer;
+```
+
+Reducer do obsługi stanu dotyczącego użytkowników. Tutaj ostatecznie trafia akcja z typem (typ akcji) i payload (ramka danych)
+
+```
+    /* src/redux/user/user.ts */
+    import { User } from '../../types/user';
+    import { FETCH_USERS_SUCCESS } from './types';
+    
+    export interface IConfigState {
+      users: User[];
+    }
+    
+    const configState: IConfigState = {
+      users: [],
+    };
+    
+    const userReducer = (state: IConfigState = configState, action: any) => {
+      switch (action.type) {
+        case FETCH_USERS_SUCCESS:
+          return {
+            ...state,
+            users: action.payload.users,
+          };
+        default:
+          return state;
+      }
+    };
+    
+    export default userReducer;
+```
+
+Najważniejsze elementy Redux-Saga
+---------------------------------
+
+Oto sześć najważniejszych fragmentów kodu dla Redux-Saga:
+
+1\. Funkcja generatora – to podstawowy element kodu Redux-Saga, który umożliwia tworzenie sekwencji asynchronicznych zadań. Funkcja generatora zaczyna się od słowa kluczowego „function\*” i zwraca iterator wykorzystując „yield”.
+
+```
+    function* mySaga() {
+      yield takeEvery('FETCH_DATA', fetchData);
+    }
+```
+
+2\. [Efekty Redux-Saga](https://redux-saga.js.org/docs/basics/Effect) – biblioteka zawiera wiele wbudowanych efektów, które pozwalają na łatwe zarządzanie side-effects w Redux, takimi jak „take”, „put”, „call”, „fork”, „cancel” .
+
+```
+    import { put, call } from 'redux-saga/effects';
+    
+    function* fetchData() {
+      try {
+        const data = yield call(api.fetchData);
+        yield put({ type: 'FETCH_DATA_SUCCESS', data });
+      } catch (error) {
+        yield put({ type: 'FETCH_DATA_FAILURE', error });
+      }}
+```
+
+3\. [Error handling](https://redux-saga.js.org/docs/basics/ErrorHandling) – Najważniejszą praktyką jest używanie try/catch bloków w sagach, które wywołują funkcje asynchroniczne. Bloki try/catch umożliwiają łapanie błędów, które mogą wystąpić podczas wykonywania kodu asynchronicznego.
+
+4\. Obserwatory – Redux-Saga pozwala na użycie obserwatorów (watchers), które nasłuchują na konkretne akcje i uruchamiają odpowiednie funkcje generatora.
+
+```
+    function* watchFetchData() {
+      yield takeEvery('FETCH_DATA', fetchData);}
+```
+
+5\. Łączenie generatorów – Redux-Saga umożliwia łatwe łączenie generatorów, co pozwala na uzyskanie bardziej złożonych sekwencji asynchronicznych zadań.
+
+```
+    function* mySaga() {
+      yield takeEvery('FETCH_DATA', fetchData);
+      yield takeLatest('UPDATE_DATA', updateData);
+    }
+```
+
+6\. Testowanie – Redux-Saga ułatwia testowanie asynchronicznych zadań dzięki wbudowanej funkcjonalności testowania (test helpers), takiej jak „expectSaga”, która umożliwia testowanie sekwencji zadań i sprawdzanie, czy dane akcje zostały wywołane w odpowiedniej kolejności.
+
+```
+    import { expectSaga } from 'redux-saga-test-plan';
+    
+    it('fetches data successfully', () => {
+      const data = { name: 'John Doe' };
+      const api = { fetchData: jest.fn(() => Promise.resolve(data)) };
+    
+      return expectSaga(fetchData)
+        .provide([
+          [call(api.fetchData), data],
+        ])
+        .put({ type: 'FETCH_DATA_SUCCESS', data })
+        .run();
+    });
+```
+
+## Podsumowanie
+
+Redux-Saga to narzędzie do zarządzania efektami ubocznymi w Redux, które oferuje wiele zalet, ale także niesie ze sobą pewne wady.
+
+### Plusy Redux-Saga:
+
+1.  Przejrzystość kodu – dzięki Redux-Saga łatwiej jest zarządzać efektami ubocznymi, co przyczynia się do uzyskania bardziej przejrzystego kodu.
+2.  Testowalność – Redux-Saga pozwala na łatwe testowanie asynchronicznych zadań, co przyspiesza proces testowania i poprawia jakość kodu.
+3.  Skalowalność – Redux-Saga może być używany w dużych projektach, w których jest wiele asynchronicznych operacji do wykonania, a zarządzanie nimi wprost w Redux może prowadzić do nadmiernego skomplikowania kodu.
+4.  Możliwość przerwania zadania – Redux-Saga umożliwia przerwanie zadania w dowolnym momencie, co jest szczególnie przydatne w przypadku interakcji z zewnętrznymi serwisami lub zapytań sieciowych.
+
+### Minusy Redux-Saga:
+
+1.  Skomplikowany kod – używanie Redux-Saga może prowadzić do skomplikowania kodu, co utrudnia jego utrzymanie w przyszłości. Ważne żeby używać nasze sagi w prosty i przejrzysty sposób. Najlepiej rozszerzać aplikację horyzontalnie i dodawać kolejne sagi niż komplikować stare.
+2.  Dłuższy czas nauki – Redux-Saga wymaga opanowania nowych pojęć, takich jak generatory, efekty uboczne i zadania, co może wymagać więcej czasu na naukę niż tradycyjne podejście do zarządzania efektami ubocznymi w Redux.
+3.  Zwiększenie rozmiaru aplikacji – dodanie Redux i Redux-Saga może nie być dobrym pomysłem dla mniejszych aplikacji gdzie nie mamy tyle asynchronicznych operacji.
+
+Podsumowując, Redux-Saga to świetne narzędzie dla każdego, kto tworzy aplikacje z wykorzystaniem Redux i musi zarządzać asynchronicznymi operacjami. Biblioteka ta pozwala na łatwe definiowanie skomplikowanych sekwencji akcji i reakcji, co znacznie ułatwia zarządzanie asynchronicznymi operacjami w aplikacji. Jeśli jeszcze nie wypróbowałeś Redux-Saga, to zachęcam do zainstalowania biblioteki i przetestowania jej w swoich projektach.
