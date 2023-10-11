@@ -3,8 +3,7 @@ const siteMetadata = {
   title: 'Dyzio Blog',
   author: 'Patryk Nizio',
   headerTitle: 'Dyzio',
-  description:
-    'Personal blog, where I write about my programming and travels. My place to share my thoughts and ideas.',
+  description: 'Hello, this is my personal blog. I write about coding and my travels, share my thoughts and stories.',
   language: 'en-us',
   theme: 'system', // system, dark or light
   siteUrl: 'https://tailwind-nextjs-starter-blog.vercel.app',
