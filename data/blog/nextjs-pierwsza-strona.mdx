@@ -1,17 +1,27 @@
 ---
-title: Next.js cz.2 - Generowanie dynamicznych stron w Next.js 13 na podstawie plików CSV (Server Side Rendering)
+title: Pierwszy projekt w Next.js 13. dynamiczne strony (SSR) generowane na serwerze z plików CSV.
 date: '2023-09-23'
 tags: ['react', 'ssr', 'next.js', 'TypeScript', 'csv']
 draft: false
-summary: Stawiamy pierwszą stronę internetową na Next.js 13 - SSR, pobieranie danych z pliku, generowanie dynamicznych stron na serwerze.
+summary: Next.js 13, projekt wybory2023.pl - pobieranie danych z pliku, generowanie dynamicznych stron na serwerze (SSR).
 ---
 
-# Next.js - Pierwsza statyczna strona na Next.js i React
+# Next.js - Pierwsza statyczna strona na Next.js a tak naprawdę React ze sterydami.
 
-Przeglądając oferty pracy na frontend coraz częściej spotykam się z firmami które stawiają swoje aplikacje na Next.js - co to takiego i jak tego użyć? Postaram sie wyjaśnij w poniższym wpisie. 
+## Wprowadzenie
 
-Dla przykładu posłuży nam strona którą postawiłem dla zabawy i nauki tj. https://2023wybory.pl 
-Strona serwuje statyczne pliki HTML wraz z danymi z oficjalnej strony PKW (https://wybory.gov.pl/sejmsenat2023/pl/dane_w_arkuszach) w postaci plików CSV.
+Cała historia zaczyna się gdy w 2020 roku w czasie pandemii Covida w Polsce odbyły się wybory prezydenckie.
+Myslałem o stworzeniu prostej viralowej gry strategicznej/klikanki osadzonej w polsko-polskiej rzeczywistości politycznej.
+To miało szansę się udać i zaistnieć na jakimś viralowym medium typu MLH/Wykop a wtedy mógłbym sprawdzić jak działa obciążony serwis i mieć fun.
+Okazało się że domena wybory2023.pl jest wolna, kupiłem ją. Przypomniałem sobie jednak o planie gry zbyt późno bo we wrześniu 2023 roku. Bez większych inspiracji co do detali i chęci odpuściłem ten projekt. Nie chciałem zostawić domeny po prostu pustej wiec minimalnym wysiłkiem wiedząc że projekt jest skazany na porażkę postanowiłem umieścić chociaż sondaże i wyniki wyborcze dla ratowania własnych ambicji.
+
+Przy okazji chciałem sprawdziłem jak działa Next.js który idealnie nadaje się do generowania i cachowania statycznych stron. 
+Jak to się mówi, nie ma nic szybszego niż statyczny HTML na Nginx :) a później tylko load-balancer i wincyj serwerów. 
+
+Za źródło danych posłużyła mi oficjalna strona PKW (https://wybory.gov.pl/sejmsenat2023/pl/dane_w_arkuszach) i arkusze z wynikami  w postaci plików CSV. Arkusze były wczytywane i przerabiane na stronę www która renderowała się na serwerze. Zrobienie samej strony zajeło mi kilka-kilkanaście godzin. Poniżej linki do projektu:
+
+- Podgląd: (https://2023wybory-pl-git-main-dyzio18.vercel.app/)
+- Repozytorium: (https://github.com/Dyzio18/2023wybory.pl/tree/main) 
 
 ## Next.js, co to jest? 
 
@@ -73,3 +83,7 @@ export default function Page({ params }: PageProps) {
 }
 ```
         
+Jeśli Cię zainteresowałem możesz zajrzeć do repozytorium i na oficjalną stronę Next.js.
+Projekt bardzo zyskuje na popularności i wydaję się istotnym rozszerzeniem dla ekosystemu React. 
+Jest to doby wybór szczególnie dla dużych serwisów, blogów, i stron które mocno stawiają na SEO i wydajność. 
+Next.js ma solidny trend wzrostowy i nic nie zapowiada żeby był mniej popularny. Osobiście jestem bardzo zadowolony, uważam że w końcu powstało dobre rozwiązanie dla obsługi React na serwerze. Jest to bardzo kompleksowe rozwiązanie zaakceptowane przez community z dużym wsparciem innych rozwiązań/twórców. 

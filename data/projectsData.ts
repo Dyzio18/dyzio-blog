@@ -1,9 +1,9 @@
 const projectsData = [
   {
-    title: 'eqchange - swap platform',
-    description: `eqchange is a platform that allows you to exchange items with other users.`,
+    title: 'eqchange - the best swap platform in hyperlocal communities',
+    description: `eqchange is a platform that allows you to exchange items with other users. React Native + Next.js + Tamagui.`,
     imgSrc: '/static/images/projects/eqchange-project.png',
-    href: 'https://eqchange.pl',
+    href: 'https://eqchange.io',
   },
   {
     title: 'selfcodehero - gamification engine & self-development platform',
