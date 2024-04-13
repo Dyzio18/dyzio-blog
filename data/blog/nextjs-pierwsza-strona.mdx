@@ -2,7 +2,7 @@
 title: Pierwszy projekt w Next.js 13. dynamiczne strony (SSR) generowane na serwerze z plików CSV.
 date: '2023-09-23'
 tags: ['react', 'ssr', 'next.js', 'TypeScript', 'csv']
-draft: false
+draft: true
 summary: Next.js 13, projekt wybory2023.pl - pobieranie danych z pliku, generowanie dynamicznych stron na serwerze (SSR).
 ---
 
@@ -10,13 +10,11 @@ summary: Next.js 13, projekt wybory2023.pl - pobieranie danych z pliku, generowa
 
 ## Wprowadzenie
 
-Cała historia zaczyna się gdy w 2020 roku w czasie pandemii Covida w Polsce odbyły się wybory prezydenckie.
-Myslałem o stworzeniu prostej viralowej gry strategicznej/klikanki osadzonej w polsko-polskiej rzeczywistości politycznej.
-To miało szansę się udać i zaistnieć na jakimś viralowym medium typu MLH/Wykop a wtedy mógłbym sprawdzić jak działa obciążony serwis i mieć fun.
-Okazało się że domena wybory2023.pl jest wolna, kupiłem ją. Przypomniałem sobie jednak o planie gry zbyt późno bo we wrześniu 2023 roku. Bez większych inspiracji co do detali i chęci odpuściłem ten projekt. Nie chciałem zostawić domeny po prostu pustej wiec minimalnym wysiłkiem wiedząc że projekt jest skazany na porażkę postanowiłem umieścić chociaż sondaże i wyniki wyborcze dla ratowania własnych ambicji.
+Historia rozpoczęła się w 2020 roku, w czasie pandemii COVID-19, gdy w Polsce odbyły się wybory prezydenckie. Wtedy pojawił się pomysł stworzenia prostej, wiralowej gry strategicznej lub klikanej, osadzonej w polskiej rzeczywistości politycznej. Plan zakładał, że gra mogłaby zyskać popularność na platformach takich jak MLH lub Wykop, co pozwoliłoby sprawdzić działanie serwisu i przyniosłoby trochę zabawy.
 
-Przy okazji chciałem sprawdziłem jak działa Next.js który idealnie nadaje się do generowania i cachowania statycznych stron. 
-Jak to się mówi, nie ma nic szybszego niż statyczny HTML na Nginx :) a później tylko load-balancer i wincyj serwerów. 
+Kiedy okazało się, że domena wybory2023.pl jest wolna, natychmiast ją zakupiłem. Niestety, przypomniałem sobie o projekcie zbyt późno, dopiero we wrześniu 2023 roku. Brakowało mi także inspiracji co do szczegółów i motywacji do dalszego działania, więc postanowiłem zrezygnować z tego pomysłu. Jednakże, nie chciałem pozostawić domeny kompletnie nieużywanej, więc w ramach minimalnego wysiłku, mając świadomość, że projekt nie ma szans na sukces, zdecydowałem się umieścić na stronie przynajmniej sondy i wyniki wyborcze.
+
+To był dobry moment żeby sprawdzić jak działa Next.js, który idealnie nadaje się do generowania i cachowania statycznych stron. Jak to się mówi, nie ma nic szybszego niż statyczny HTML na Nginx :) a później tylko load-balancer i wincyj serwerów.
 
 Za źródło danych posłużyła mi oficjalna strona PKW (https://wybory.gov.pl/sejmsenat2023/pl/dane_w_arkuszach) i arkusze z wynikami  w postaci plików CSV. Arkusze były wczytywane i przerabiane na stronę www która renderowała się na serwerze. Zrobienie samej strony zajeło mi kilka-kilkanaście godzin. Poniżej linki do projektu:
 
