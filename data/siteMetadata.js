@@ -1,10 +1,10 @@
 /** @type {import("pliny/config").PlinyConfig } */
 const siteMetadata = {
-  title: 'Dyzio Blog',
+  title: 'Dyzio.me - blog osobisty',
   author: 'Patryk Nizio',
-  headerTitle: 'Dyzio',
-  description: 'Hello, this is my personal blog. I write about coding and my travels, share my thoughts and stories.',
-  language: 'en-us',
+  headerTitle: 'Dyzio.me',
+  description: 'Blog o programowaniu, technologiach webowych, a także o życiu i pracy w IT.',
+  language: 'pl-PL',
   theme: 'system', // system, dark or light
   siteUrl: 'https://tailwind-nextjs-starter-blog.vercel.app',
   siteRepo: 'https://github.com/dyzio18/dyzio-blog',
@@ -86,6 +86,6 @@ const siteMetadata = {
     //   indexName: 'docsearch',
     // },
   },
-}
+};
 
-module.exports = siteMetadata
+module.exports = siteMetadata;

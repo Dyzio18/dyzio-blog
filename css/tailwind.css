@@ -29,3 +29,19 @@ input:-webkit-autofill:focus {
     background-color 600000s 0s,
     color 600000s 0s;
 }
+
+.bg-dot {
+  background-color: #e5e5f7;
+  opacity: 0.8;
+  background-image: radial-gradient(#444cf7 0.5px, #e5e5f7 0.5px);
+  background-size: 10px 10px;
+  border-radius: 10px;
+}
+
+/* Dark mode */
+.dark .bg-dot {
+  background-color: #444cf7;
+  opacity: 0.8;
+  background-image: radial-gradient(#e5e5f7 0.5px, #444cf7 0.5px);
+  background-size: 10px 10px;
+}
