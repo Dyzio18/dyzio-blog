@@ -10,8 +10,8 @@ export default function Home({ posts }) {
   return (
     <>
       <div className="divide-y divide-gray-200 dark:divide-gray-700">
-        <PersonalBlog />
-        <ul className="divide-y divide-gray-200 dark:divide-gray-700">
+        <HeroSection />
+        <ul className="divide-y divide-gray-200 dark:divide-gray-700 mt-5">
           {!posts.length && 'No posts found.'}
           {posts.slice(0, MAX_DISPLAY).map((post) => {
             const { slug, date, title, summary, tags } = post;
@@ -83,7 +83,7 @@ export default function Home({ posts }) {
   );
 }
 
-const PersonalBlog = () => {
+const HeroSection = () => {
   return (
     <div className="bg-dot relative isolate overflow-hidden bg-gray-900 py-6 sm:py-12">
       <div className="mx-auto max-w-7xl px-6 lg:px-8">
@@ -99,16 +99,16 @@ const PersonalBlog = () => {
         <div className="mx-auto mt-10 max-w-2xl lg:mx-0 lg:max-w-none">
           <div className="grid grid-cols-1 gap-x-8 gap-y-6 text-base font-semibold leading-7 sm:grid-cols-2 md:flex lg:gap-x-10">
             <a href="/blog">
-              Moje artykuły <span aria-hidden="true">&rarr;</span>
+              Blog <span aria-hidden="true">&rarr;</span>
+            </a>
+            <a href="/eqchange">
+              Platforma eqchange <span aria-hidden="true">&rarr;</span>
             </a>
             <a href="/bucketlist">
-              Lista marzeń <span aria-hidden="true">&rarr;</span>
-            </a>
-            <a href="/projects">
-              Moje projekty <span aria-hidden="true">&rarr;</span>
+              Lista celów <span aria-hidden="true">&rarr;</span>
             </a>
             <a href="/about">
-              O mnie <span aria-hidden="true">&rarr;</span>
+              Kontakt <span aria-hidden="true">&rarr;</span>
             </a>
           </div>
         </div>

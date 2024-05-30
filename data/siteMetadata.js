@@ -15,6 +15,7 @@ const siteMetadata = {
   github: 'https://github.com/dyzio18',
   twitter: 'https://twitter.com/patryk_nizio',
   facebook: 'https://facebook.com',
+  instagram: 'https://www.instagram.com/dyzio_master/',
   youtube: 'https://youtube.com',
   linkedin: 'https://www.linkedin.com/in/patryk-nizio/',
   locale: 'pl-PL',

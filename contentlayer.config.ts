@@ -123,14 +123,27 @@ export const Authors = defineDocumentType(() => ({
     twitter: { type: 'string' },
     linkedin: { type: 'string' },
     github: { type: 'string' },
+    instagram: { type: 'string' },
     layout: { type: 'string' },
+  },
+  computedFields,
+}));
+
+export const CMS = defineDocumentType(() => ({
+  name: 'CMS',
+  filePathPattern: 'cms/**/*.mdx',
+  contentType: 'mdx',
+  fields: {
+    date: { type: 'date' },
+    name: { type: 'string' },
+    title: { type: 'string' },
   },
   computedFields,
 }));
 
 export default makeSource({
   contentDirPath: 'data',
-  documentTypes: [Blog, Authors],
+  documentTypes: [Blog, Authors, CMS],
   mdx: {
     cwd: process.cwd(),
     remarkPlugins: [

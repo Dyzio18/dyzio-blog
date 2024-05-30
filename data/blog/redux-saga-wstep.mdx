@@ -1,18 +1,15 @@
 ---
-title: Redux Saga
-date: '2023-01-12'
+title: Redux Saga short-guide
+date: '2023-10-12'
 tags: ['redux', 'redux-saga', 'JavaScript', 'TypeScript']
 draft: false
-summary: Redux-Saga to biblioteka umożliwiająca eleganckie i efektywne zarządzanie operacjami asynchronicznymi w aplikacjach opartych na Redux poprzez użycie funkcji generatorowych do definiowania sekwencji akcji i reakcji.
+summary: Redux-Saga to narzędzie, które pomaga w zarządzaniu operacjami, które nie wykonują się natychmiast, takimi jak żądania do API. Działa w kontekście aplikacji opartych na Redux, umożliwiając tworzenie specjalnych 'wątków' - sag, które są odpowiedzialne za obsługę ciągów zdarzeń i odpowiedzi.
 ---
 
 ## Redux-Saga - wstęp
 ---------------------
 
-Redux-Saga to biblioteka, do obsługi efektów ubocznych (side-effects) w aplikacjach. Przykładowe zastosowanie: asynchroniczne akcjie np. pobieranie danych - zapytania HTTP, dostęp do pamięci podręcznej przeglądarki, zmiana stanu aplikacji etc. Biblioteka Redux-Saga jest middlewarem dla Redux i ma pełen dostęp do stanu aplikacji oraz umożliwia dysponowanie akcjami Redux.
-
-**TL;TR;**
-Redux-Saga to biblioteka umożliwiająca eleganckie i efektywne zarządzanie operacjami asynchronicznymi w aplikacjach opartych na Redux poprzez użycie funkcji generatorowych do definiowania sekwencji akcji i reakcji.
+Redux-Saga to biblioteka, do obsługi efektów ubocznych (side-effects) w aplikacjach. Przykładowe zastosowanie: asynchroniczne akcjie np. pobieranie danych - zapytania HTTP, dostęp do pamięci podręcznej przeglądarki, zmiana stanu aplikacji etc. Biblioteka Redux-Saga jest middlewarem dla Redux i ma pełen dostęp do stanu aplikacji oraz umożliwia dysponowanie akcjami Redux. Redux-Saga umożliwia definiowanie sekwencji akcji i reakcji na akcje w sposób deklaratywny i czytelny.
 
 ## Jak działa Redux-Saga?
 ----------------------
@@ -249,7 +246,7 @@ Oto sześć najważniejszych fragmentów kodu dla Redux-Saga:
     });
 ```
 
-## Podsumowanie
+## Plusy i minusy
 
 Redux-Saga to narzędzie do zarządzania efektami ubocznymi w Redux, które oferuje wiele zalet, ale także niesie ze sobą pewne wady.
 
@@ -267,3 +264,80 @@ Redux-Saga to narzędzie do zarządzania efektami ubocznymi w Redux, które ofer
 3.  Zwiększenie rozmiaru aplikacji – dodanie Redux i Redux-Saga może nie być dobrym pomysłem dla mniejszych aplikacji gdzie nie mamy tyle asynchronicznych operacji.
 
 Podsumowując, Redux-Saga to świetne narzędzie dla każdego, kto tworzy aplikacje z wykorzystaniem Redux i musi zarządzać asynchronicznymi operacjami. Biblioteka ta pozwala na łatwe definiowanie skomplikowanych sekwencji akcji i reakcji, co znacznie ułatwia zarządzanie asynchronicznymi operacjami w aplikacji. Jeśli jeszcze nie wypróbowałeś Redux-Saga, to zachęcam do zainstalowania biblioteki i przetestowania jej w swoich projektach.
+
+## TL;TR; (Streszczenie)
+
+
+1. Instalacja Redux i Redux-Saga:
+```
+npm install redux redux-saga
+```
+
+2. Importowanie modułów:
+```
+import { createStore, applyMiddleware } from 'redux';
+import createSagaMiddleware from 'redux-saga';
+```
+
+3. Tworzenie middleware dla sagi:
+```
+const sagaMiddleware = createSagaMiddleware();
+```
+
+4. Tworzenie store z middleware:
+```
+const store = createStore(reducer, applyMiddleware(sagaMiddleware));
+```
+
+5. Uruchomienie sagi:
+```
+sagaMiddleware.run(rootSaga);
+```
+
+6. Tworzenie sagi (jako funkcji generatora):
+```
+function* mySaga() {
+  yield takeEvery('FETCH_DATA', fetchData);
+}
+```
+
+7. Obsługa asynchronicznych zadań:
+```
+function* fetchData() {
+  try {
+    const data = yield call(api.fetchData);
+    yield put({ type: 'FETCH_DATA_SUCCESS', data });
+  } catch (error) {
+    yield put({ type: 'FETCH_DATA_FAILURE', error });
+  }
+}
+```
+
+8. Przekazanie akcji z komponentu:
+```
+const dispatch = useDispatch();
+dispatch({ type: 'FETCH_DATA' });
+```
+
+9. Saga z payloadem:
+```
+import { call, put, takeEvery } from 'redux-saga/effects';
+
+function* mySaga(action) {
+  try {
+    const data = yield call(Api.fetchUser, action.payload.userId); // Api.fetchUser to przykładowe wywołanie API
+    yield put({type: "USER_FETCH_SUCCEEDED", user: data});
+  } catch (e) {
+    yield put({type: "USER_FETCH_FAILED", message: e.message});
+  }
+}
+
+export default function* rootSaga() {
+  yield takeEvery("USER_FETCH_REQUESTED", mySaga);
+}
+```
+
+10. Wysyłanie akcji:
+```
+store.dispatch({ type: 'USER_FETCH_REQUESTED', payload: { userId: 123 } });
+```
