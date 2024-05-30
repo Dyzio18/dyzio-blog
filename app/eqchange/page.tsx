@@ -23,8 +23,8 @@ export default function Page() {
   const Layout = layouts['PostSimple'];
 
   return (
-    <Layout content={mainContent}>
+    <PostSimple content={mainContent}>
       <MDXLayoutRenderer code={cms.body.code} components={components} toc={cms.toc} />
-    </Layout>
+    </PostSimple>
   );
 }
