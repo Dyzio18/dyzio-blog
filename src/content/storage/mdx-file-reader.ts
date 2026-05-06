@@ -2,7 +2,6 @@ import { readFileSync, readdirSync } from 'fs'
 import path from 'path'
 import matter from 'gray-matter'
 import readingTime from 'reading-time'
-// @ts-ignore - @mdx-js/mdx v2 types
 import { compileSync } from '@mdx-js/mdx'
 import remarkGfm from 'remark-gfm'
 import remarkMath from 'remark-math'

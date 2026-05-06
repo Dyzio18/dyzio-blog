@@ -1,12 +1,13 @@
 import { dirname } from 'path'
 import { fileURLToPath } from 'url'
+import { defineConfig } from 'eslint/config'
 import nextCoreWebVitals from 'eslint-config-next/core-web-vitals'
 import nextTypescript from 'eslint-config-next/typescript'
 
 const __filename = fileURLToPath(import.meta.url)
 const __dirname = dirname(__filename)
 
-const config = [
+const config = defineConfig([
   {
     ignores: ['.next/**', 'node_modules/**', 'public/**'],
   },
@@ -47,6 +48,6 @@ const config = [
       },
     },
   },
-]
+])
 
 export default config
