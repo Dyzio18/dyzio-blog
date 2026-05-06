@@ -1,13 +1,13 @@
 import Link from '@/components/Link';
 import Tag from '@/components/Tag';
+import { getTagCounts } from '@/content/queries';
 import { slug } from 'github-slugger';
-import tagData from 'app/tag-data.json';
 import { genPageMetadata } from 'app/seo';
 
 export const metadata = genPageMetadata({ title: 'Tags', description: 'Things I blog about' });
 
 export default async function Page() {
-  const tagCounts = tagData as Record<string, number>;
+  const tagCounts = getTagCounts();
   const tagKeys = Object.keys(tagCounts);
   const sortedTags = tagKeys.sort((a, b) => tagCounts[b] - tagCounts[a]);
   return (

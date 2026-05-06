@@ -1,7 +1,6 @@
 import { mkdirSync, readFileSync, writeFileSync, readdirSync } from 'fs';
 import path from 'path';
 import matter from 'gray-matter';
-import GithubSlugger from 'github-slugger';
 import siteMetadata from '../data/siteMetadata.js';
 
 const CONTENT_DIR = path.join(process.cwd(), 'data');
@@ -31,52 +30,12 @@ function dateSortDesc(a, b) {
   return 0;
 }
 
-function sortPosts(posts, dateKey = 'date') {
-  return [...posts].sort((left, right) => dateSortDesc(left[dateKey], right[dateKey]));
-}
-
-function omit(content, keys) {
-  const result = { ...content };
-  keys.forEach((key) => {
-    delete result[key];
-  });
-  return result;
-}
-
-function coreContent(content) {
-  return omit(content, ['body', '_raw', '_id']);
-}
-
-function createTagCount(blogFiles) {
-  const tagCount = {};
-
-  for (const { path: filePath } of blogFiles) {
-    const fileContent = readFileSync(filePath, 'utf-8');
-    const { data } = matter(fileContent);
-
-    if (!data.tags || data.draft === true) {
-      continue;
-    }
-
-    const tags = Array.isArray(data.tags) ? data.tags : data.tags.split(',').map((t) => t.trim());
-    for (const tag of tags) {
-      const formattedTag = new GithubSlugger().slug(tag);
-      tagCount[formattedTag] = (tagCount[formattedTag] || 0) + 1;
-    }
-  }
-
-  writeFileSync('./app/tag-data.json', JSON.stringify(tagCount));
-}
-
 function createSearchIndex(blogFiles) {
-  if (
-    siteMetadata?.search?.provider !== 'kbar' ||
-    !siteMetadata.search.kbarConfig?.searchDocumentsPath
-  ) {
+  if (siteMetadata?.search?.provider !== 'local' || !siteMetadata.search.indexPath) {
     return;
   }
 
-  const outputPath = path.join('public', siteMetadata.search.kbarConfig.searchDocumentsPath);
+  const outputPath = path.join('public', siteMetadata.search.indexPath);
 
   const searchIndex = blogFiles
     .map(({ path: filePath, slug }) => {
@@ -109,7 +68,6 @@ function createSearchIndex(blogFiles) {
 function main() {
   const blogFiles = getAllBlogFiles(BLOG_DIR);
 
-  createTagCount(blogFiles);
   createSearchIndex(blogFiles);
   console.log('Content assets generated...');
 }

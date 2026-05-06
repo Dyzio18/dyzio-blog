@@ -1,6 +1,6 @@
 import { ReactNode } from 'react';
+import Bleed from '@/components/Bleed';
 import Image from '@/components/Image';
-import Bleed from 'pliny/ui/Bleed';
 import type { CorePost } from '@/content/queries';
 import Comments from '@/components/Comments';
 import Link from '@/components/Link';

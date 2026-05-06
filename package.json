@@ -3,19 +3,19 @@
   "version": "1.0.1",
   "private": true,
   "scripts": {
+    "content:assets": "node ./scripts/generate-content-assets.mjs",
     "start": "next start",
-    "dev": "next dev",
-    "build": "next build && node ./scripts/postbuild.mjs",
+    "dev": "pnpm content:assets && next dev",
+    "build": "pnpm content:assets && next build && node ./scripts/postbuild.mjs",
     "serve": "next start",
-    "analyze": "ANALYZE=true next build",
-    "lint": "ESLINT_USE_FLAT_CONFIG=false eslint app components layouts scripts data *.js *.ts"
+    "analyze": "pnpm content:assets && ANALYZE=true next build",
+    "lint": "eslint app components layouts scripts data next.config.js tailwind.config.js postcss.config.js prettier.config.js eslint.config.mjs"
   },
   "dependencies": {
     "@next/bundle-analyzer": "16.0.7",
     "@tailwindcss/forms": "^0.5.11",
     "@tailwindcss/typography": "^0.5.19",
     "autoprefixer": "^10.4.22",
-    "esbuild": "0.18.20",
     "github-slugger": "^2.0.0",
     "gray-matter": "^4.0.3",
     "image-size": "2.0.2",
@@ -23,7 +23,6 @@
     "leaflet": "^1.9.4",
     "next": "16.0.7",
     "next-themes": "^0.4.6",
-    "pliny": "0.4.1",
     "postcss": "^8.5.6",
     "react": "19.2.1",
     "react-dom": "19.2.1",

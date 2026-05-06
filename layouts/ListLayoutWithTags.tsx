@@ -1,4 +1,3 @@
-/* eslint-disable jsx-a11y/anchor-is-valid */
 'use client';
 
 import { usePathname } from 'next/navigation';
@@ -8,7 +7,6 @@ import type { CorePost } from '@/content/queries';
 import Link from '@/components/Link';
 import Tag from '@/components/Tag';
 import siteMetadata from '@/data/siteMetadata';
-import tagData from 'app/tag-data.json';
 
 interface PaginationProps {
   totalPages: number;
@@ -17,6 +15,7 @@ interface PaginationProps {
 interface ListLayoutProps {
   posts: CorePost[];
   title: string;
+  tagCounts: Record<string, number>;
   initialDisplayPosts?: CorePost[];
   pagination?: PaginationProps;
 }
@@ -64,11 +63,11 @@ function Pagination({ totalPages, currentPage }: PaginationProps) {
 export default function ListLayoutWithTags({
   posts,
   title,
+  tagCounts,
   initialDisplayPosts = [],
   pagination,
 }: ListLayoutProps) {
   const pathname = usePathname();
-  const tagCounts = tagData as Record<string, number>;
   const tagKeys = Object.keys(tagCounts);
   const sortedTags = tagKeys.sort((a, b) => tagCounts[b] - tagCounts[a]);
 

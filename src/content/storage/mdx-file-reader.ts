@@ -9,8 +9,6 @@ import remarkMath from 'remark-math'
 import rehypeSlug from 'rehype-slug'
 import rehypeAutolinkHeadings from 'rehype-autolink-headings'
 import rehypeKatex from 'rehype-katex'
-// @ts-ignore - pliny mdx-plugins
-import { remarkCodeTitles, remarkImgToJsx } from 'pliny/mdx-plugins/index.js'
 import GithubSlugger from 'github-slugger'
 import type { PostDocument, AuthorDocument, StaticPageDocument, TocHeading } from '../schema/types'
 import siteMetadata from '../../../data/siteMetadata'
@@ -39,8 +37,10 @@ function extractTocSync(raw: string): TocHeading[] {
 function compileMdx(content: string): string {
   const result = compileSync(content, {
     outputFormat: 'function-body' as const,
-    remarkPlugins: [remarkGfm, remarkMath, remarkCodeTitles, remarkImgToJsx] as any,
-    rehypePlugins: [rehypeSlug, rehypeAutolinkHeadings, rehypeKatex] as any,
+    // @ts-ignore - plugin tuple types are narrower than compileSync expects in this stack
+    remarkPlugins: [remarkGfm, remarkMath],
+    // @ts-ignore - plugin tuple types are narrower than compileSync expects in this stack
+    rehypePlugins: [rehypeSlug, rehypeAutolinkHeadings, rehypeKatex],
   })
   return String(result)
 }

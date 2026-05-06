@@ -1,6 +1,6 @@
 import { MDXLayoutRenderer } from '@/components/MDXLayoutRenderer';
 import { components } from '@/components/MDXComponents';
-import { getPageBySlug, corePage } from '@/content/queries'
+import { getPageBySlug, corePage } from '@/content/queries';
 import { genPageMetadata } from 'app/seo';
 import LayoutWrapper from '../../components/LayoutWrapper';
 import PostSimple from '../../layouts/PostSimple';

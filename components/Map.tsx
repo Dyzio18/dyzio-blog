@@ -1,3 +1,5 @@
+'use client';
+
 import MapClient from './MapClient';
 
 export interface Location {

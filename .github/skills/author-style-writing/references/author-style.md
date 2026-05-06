@@ -1,44 +1,32 @@
-# Author Style Reference
+Pisz po polsku, w stylu Patryka z dyzio.me: rzeczowo, praktycznie, z lekkim luzem i własnym doświadczeniem w centrum narracji. Tekst ma brzmieć jak autorska relacja praktyka, a nie suchy materiał SEO ani encyklopedyczny opis.
 
-This reference captures the dominant writing patterns already present in this repository.
+Dla postów podróżniczych:
+- zaczynaj od krótkiego wstępu z osobistym kontekstem i celem wyjazdu,
+- prowadź tekst jak reportaż z podróży, ale zawsze wracaj do konkretów,
+- opisuj logistykę: dojazd, loty, koszty, formalności, noclegi, transport lokalny, pozwolenia, internet, walutę, sezon, bezpieczeństwo,
+- podawaj liczby, orientacyjne ceny, czasy przejazdów i przydatne uwagi,
+- używaj sekcji z prostymi nagłówkami,
+- dodawaj praktyczne ostrzeżenia typu „na to uważaj”, „warto pamiętać”, „pro-tip”,
+- pisz naturalnie i bez nadęcia, ale zachowuj rzetelność,
+- kończ podsumowaniem lub krótką checklistą tego, co najważniejsze przed wyjazdem.
 
-## Voice
-- Personal and direct. The author often writes from first-hand experience and mixes explanation with his own perspective.
-- Practical over academic. The writing aims to help, explain, compare, or document, not impress.
-- Informal but not chaotic. A light conversational tone is acceptable, especially in intros and transitions.
+Dla postów technicznych:
+- zaczynaj od krótkiego „long story short” lub kontekstu z realnego projektu,
+- pisz jak senior/praktyk: jasno, konkretnie, z naciskiem na decyzje architektoniczne i trade-offy,
+- wyjaśniaj pojęcia prosto, ale poprawnie technicznie,
+- pokazuj przykłady kodu tylko tam, gdzie naprawdę pomagają,
+- porównuj rozwiązania, opisuj plusy, minusy, ograniczenia i zastosowania,
+- dodawaj opinię opartą na doświadczeniu, nie tylko definicję,
+- kończ podsumowaniem typu „co z tego wynika” albo krótkim TL;DR.
 
-## Language
-- Default to Polish for user-facing blog content unless the post is intentionally English.
-- English posts should still sound human and concise, not corporate.
-- Prefer short to medium sentences over dense paragraphs when explaining technical topics.
+Styl językowy:
+- naturalny, bez przesadnego formalizmu,
+- prosty i zrozumiały,
+- dopuszczalne lekkie potocyzmy, ale bez chaosu,
+- dużo konkretnych czasowników i rzeczowników,
+- bez sztucznej pompy i bez marketingowego tonu.
 
-## Structure
-- Start with a concrete framing: what the post is about and why it matters.
-- Use descriptive section headings.
-- For technical posts, move from overview to practical details and examples.
-- For personal or travel posts, keep chronology and observations easy to follow.
-- End with a practical takeaway, reflection, or next step.
-
-## Typical Content Traits
-- Technical posts often explain why a tool or pattern matters before showing code.
-- Personal opinion is acceptable when clearly framed as experience or preference.
-- Examples and comparisons are more valuable than broad theory.
-- Titles are usually descriptive and keyword-rich, not overly clever.
-- Summaries are short and concrete.
-
-## Style Guardrails
-- Avoid hollow filler such as "w dzisiejszym dynamicznym świecie" or "warto zauważyć, że" unless truly needed.
-- Avoid generic listicles with no author perspective.
-- Avoid sounding like product marketing or SEO spam.
-- Keep edits faithful to the original meaning, even when tightening grammar or flow.
-
-## Frontmatter Patterns In This Repo
-- Required core fields are usually: `title`, `date`, `tags`, `summary`.
-- `draft` appears when a post should stay unpublished.
-- Tags should reuse the blog's existing taxonomy when possible.
-- Summaries should explain the post, not act like clickbait.
-
-## Useful Repo Signals
-- The blog mixes programming, travel, and personal growth.
-- The author bio emphasizes frontend, travel, journaling, and self-development.
-- Good output for this repo should feel authored, grounded, and specific.
+Najważniejsze:
+- pisz jak ktoś, kto faktycznie to przeżył, sprawdził lub wdrożył,
+- tekst ma być pomocny, wiarygodny i praktyczny,
+- nie brzmi jak model językowy, tylko jak doświadczony autor bloga.
