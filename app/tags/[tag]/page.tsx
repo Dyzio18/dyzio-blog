@@ -1,14 +1,15 @@
 import { slug } from 'github-slugger';
-import { allCoreContent } from 'pliny/utils/contentlayer';
+import { getAllPosts, allCoreContent } from '@/content/queries';
 import siteMetadata from '@/data/siteMetadata';
 import ListLayout from '@/layouts/ListLayoutWithTags';
-import { allBlogs } from 'contentlayer/generated';
 import tagData from 'app/tag-data.json';
 import { genPageMetadata } from 'app/seo';
 import { Metadata } from 'next';
+import tagDisplayNames from '@/data/tagDisplayNames';
 
-export async function generateMetadata({ params }: { params: { tag: string } }): Promise<Metadata> {
-  const tag = decodeURI(params.tag);
+export async function generateMetadata({ params }: { params: Promise<{ tag: string; }>; }): Promise<Metadata> {
+  const { tag: tagParam } = await params;
+  const tag = decodeURI(tagParam);
   return genPageMetadata({
     title: tag,
     description: `${siteMetadata.title} ${tag} tagged content`,
@@ -30,12 +31,12 @@ export const generateStaticParams = async () => {
   return paths;
 };
 
-export default function TagPage({ params }: { params: { tag: string } }) {
-  const tag = decodeURI(params.tag);
-  // Capitalize first letter and convert space to dash
-  const title = tag[0].toUpperCase() + tag.split(' ').join('-').slice(1);
+export default async function TagPage({ params }: { params: Promise<{ tag: string; }>; }) {
+  const { tag: tagParam } = await params;
+  const tag = decodeURI(tagParam);
+  const title = tagDisplayNames[tag] || (tag[0].toUpperCase() + tag.slice(1));
   const filteredPosts = allCoreContent(
-    allBlogs.filter(
+    getAllPosts().filter(
       (post) => post.draft !== true && post.tags && post.tags.map((t) => slug(t)).includes(tag)
     )
   );

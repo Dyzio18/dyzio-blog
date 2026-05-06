@@ -1,19 +1,20 @@
 import ListLayout from '@/layouts/ListLayoutWithTags';
-import { allCoreContent, sortPosts } from 'pliny/utils/contentlayer';
-import { allBlogs } from 'contentlayer/generated';
+import { getAllPostsSorted, allCoreContent } from '@/content/queries';
 
 const POSTS_PER_PAGE = 5;
 
 export const generateStaticParams = async () => {
-  const totalPages = Math.ceil(allBlogs.length / POSTS_PER_PAGE);
+  const posts = getAllPostsSorted();
+  const totalPages = Math.ceil(posts.length / POSTS_PER_PAGE);
   const paths = Array.from({ length: totalPages }, (_, i) => ({ page: (i + 1).toString() }));
 
   return paths;
 };
 
-export default function Page({ params }: { params: { page: string } }) {
-  const posts = allCoreContent(sortPosts(allBlogs));
-  const pageNumber = parseInt(params.page as string);
+export default async function Page({ params }: { params: Promise<{ page: string; }>; }) {
+  const { page } = await params;
+  const posts = allCoreContent(getAllPostsSorted());
+  const pageNumber = parseInt(page, 10);
   const initialDisplayPosts = posts.slice(
     POSTS_PER_PAGE * (pageNumber - 1),
     POSTS_PER_PAGE * pageNumber

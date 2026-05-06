@@ -2,9 +2,8 @@
 
 import { useState } from 'react';
 import { usePathname } from 'next/navigation';
-import { formatDate } from 'pliny/utils/formatDate';
-import { CoreContent } from 'pliny/utils/contentlayer';
-import type { Blog } from 'contentlayer/generated';
+import { formatDate } from '@/content/utils/formatDate';
+import type { CorePost } from '@/content/queries';
 import Link from '@/components/Link';
 import Tag from '@/components/Tag';
 import siteMetadata from '@/data/siteMetadata';
@@ -14,9 +13,9 @@ interface PaginationProps {
   currentPage: number;
 }
 interface ListLayoutProps {
-  posts: CoreContent<Blog>[];
+  posts: CorePost[];
   title: string;
-  initialDisplayPosts?: CoreContent<Blog>[];
+  initialDisplayPosts?: CorePost[];
   pagination?: PaginationProps;
 }
 
@@ -72,7 +71,6 @@ export default function ListLayout({
     return searchContent.toLowerCase().includes(searchValue.toLowerCase());
   });
 
-  // If initialDisplayPosts exist, display it if no searchValue is specified
   const displayPosts =
     initialDisplayPosts.length > 0 && !searchValue ? initialDisplayPosts : filteredBlogPosts;
 

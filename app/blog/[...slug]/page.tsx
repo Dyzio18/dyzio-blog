@@ -3,10 +3,9 @@ import 'katex/dist/katex.css';
 
 import PageTitle from '@/components/PageTitle';
 import { components } from '@/components/MDXComponents';
-import { MDXLayoutRenderer } from 'pliny/mdx-components';
-import { sortPosts, coreContent, allCoreContent } from 'pliny/utils/contentlayer';
-import { allBlogs, allAuthors } from 'contentlayer/generated';
-import type { Authors, Blog } from 'contentlayer/generated';
+import { MDXLayoutRenderer } from '@/components/MDXLayoutRenderer';
+import { getAllPostsSorted, getPostBySlug, getAuthorBySlug, allCoreContent, coreContent, coreAuthor } from '@/content/queries';
+import type { CorePost, CoreAuthor } from '@/content/queries';
 import PostSimple from '@/layouts/PostSimple';
 import PostLayout from '@/layouts/PostLayout';
 import PostBanner from '@/layouts/PostBanner';
@@ -23,18 +22,20 @@ const layouts = {
 export async function generateMetadata({
   params,
 }: {
-  params: { slug: string[]; };
+  params: Promise<{ slug: string[]; }>;
 }): Promise<Metadata | undefined> {
-  const slug = decodeURI(params.slug.join('/'));
-  const post = allBlogs.find((p) => p.slug === slug);
-  const authorList = post?.authors || ['default'];
-  const authorDetails = authorList.map((author) => {
-    const authorResults = allAuthors.find((p) => p.slug === author);
-    return coreContent(authorResults as Authors);
-  });
+  const { slug: slugSegments } = await params;
+  const slug = decodeURI(slugSegments.join('/'));
+  const post = getPostBySlug(slug);
   if (!post) {
     return;
   }
+
+  const authorList = post.authors || ['default'];
+  const authorDetails = authorList.map((author) => {
+    const authorResults = getAuthorBySlug(author);
+    return authorResults ? coreAuthor(authorResults) : null;
+  }).filter(Boolean) as CoreAuthor[];
 
   const publishedAt = new Date(post.date).toISOString();
   const modifiedAt = new Date(post.lastmod || post.date).toISOString();
@@ -74,15 +75,19 @@ export async function generateMetadata({
 }
 
 export const generateStaticParams = async () => {
-  const paths = allBlogs.map((p) => ({ slug: p.slug.split('/') }));
+  const posts = getAllPostsSorted();
+  const paths = posts.map((p) => ({ slug: p.slug.split('/') }));
 
   return paths;
 };
 
-export default async function Page({ params }: { params: { slug: string[]; }; }) {
-  const slug = decodeURI(params.slug.join('/'));
-  // Filter out drafts in production
-  const sortedCoreContents = allCoreContent(sortPosts(allBlogs));
+// Revalidate blog post pages every hour to pick up content updates without a full redeploy
+export const revalidate = 3600;
+
+export default async function Page({ params }: { params: Promise<{ slug: string[]; }>; }) {
+  const { slug: slugSegments } = await params;
+  const slug = decodeURI(slugSegments.join('/'));
+  const sortedCoreContents = allCoreContent(getAllPostsSorted());
   const postIndex = sortedCoreContents.findIndex((p) => p.slug === slug);
   if (postIndex === -1) {
     return (
@@ -99,12 +104,24 @@ export default async function Page({ params }: { params: { slug: string[]; }; })
 
   const prev = sortedCoreContents[postIndex + 1];
   const next = sortedCoreContents[postIndex - 1];
-  const post = allBlogs.find((p) => p.slug === slug) as Blog;
-  const authorList = post?.authors || ['default'];
+  const post = getPostBySlug(slug);
+  if (!post) {
+    return (
+      <div className="mt-24 text-center">
+        <PageTitle>
+          Under Construction{' '}
+          <span role="img" aria-label="roadwork sign">
+            🚧
+          </span>
+        </PageTitle>
+      </div>
+    );
+  }
+  const authorList = post.authors || ['default'];
   const authorDetails = authorList.map((author) => {
-    const authorResults = allAuthors.find((p) => p.slug === author);
-    return coreContent(authorResults as Authors);
-  });
+    const authorResults = getAuthorBySlug(author);
+    return authorResults ? coreAuthor(authorResults) : null;
+  }).filter(Boolean) as CoreAuthor[];
   const mainContent = coreContent(post);
   const jsonLd = post.structuredData;
   jsonLd['author'] = authorDetails.map((author) => {
@@ -114,7 +131,7 @@ export default async function Page({ params }: { params: { slug: string[]; }; })
     };
   });
 
-  const Layout = layouts[post.layout || defaultLayout];
+  const Layout = layouts[(post.layout || defaultLayout) as keyof typeof layouts];
 
   return (
     <>
@@ -123,7 +140,7 @@ export default async function Page({ params }: { params: { slug: string[]; }; })
         dangerouslySetInnerHTML={{ __html: JSON.stringify(jsonLd) }}
       />
       <Layout content={mainContent} authorDetails={authorDetails} next={next} prev={prev}>
-        <MDXLayoutRenderer code={post.body.code} components={components} toc={post.toc} />
+        <MDXLayoutRenderer code={post.bodyCode} components={components} toc={post.toc} />
       </Layout>
     </>
   );

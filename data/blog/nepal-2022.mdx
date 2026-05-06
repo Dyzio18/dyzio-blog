@@ -4,6 +4,7 @@ date: '2023-11-29'
 tags: ['travel', 'nepal', 'hiking', 'trekking', 'mountains']
 draft: false
 summary: Trekking w Himalajach, Nepal 2022 - relacja z wyprawy z Kathmandu do Manang.
+layout: PostBanner
 ---
 
 # Nepal - Relacja z wyjazdu 2022 
@@ -23,7 +24,17 @@ Na początku września kupiłem bilety lotnicze za 4k PLN (w obie strony przez F
 
 W sobotę (22.10.2022 r.) wylądowałem w Kathmandu, było już po 20:00. Sobota w Nepalu to dzień wolny (taka nasza niedziela) więc trzeba się liczyć że duża cześć sklepów/punktów może być zamknięta. 
 
-Do Nepalu potrzebna jest wiza, można ją wyrobić na lotnisku lub wcześniej złożyć wniosek on-line. Ja wyrabiałem na lotnisku i nie było żadnych problemów. Jak to wygląda? Po wyjściu z samolotu i trzeba wypełnić formularz na komputerze, zrobić zdjęcie telefonem i pokazać je przy okienku gdzie dostaniemy jakiś druczek. Z tym druczkiem idziemy do odprawy paszportowej i dostajemy wizę do paszportu. Przy okazji możemy wymienić obok dolary/euro na rupie nepalskie w oficjalnym kantorze. Podobno to jedyne miejsce w gdzie dostaniemy potwierdzenie wymiany na podstawie którego będziemy mogli również zwrócić rupie i odzyskać dolary gdy będziemy już wracać. Dlatego pamiętaj żeby wziąć papierek z kantoru i poprosić o niego jeśli Ci nie dadzą. Mi nie dali, choć i tak nie byłby mi potrzebny bo w ostatni dzień byłem już całkowicie spłukany z rupii. 
+Do Nepalu potrzebna jest wiza, można ją wyrobić na lotnisku lub wcześniej złożyć wniosek on-line. Ja wyrabiałem na lotnisku i nie było żadnych problemów. Jak to wygląda? Po wyjściu z samolotu i trzeba wypełnić formularz na komputerze, zrobić zdjęcie telefonem i pokazać je przy okienku gdzie dostaniemy jakiś druczek. Z tym druczkiem idziemy do odprawy paszportowej i dostajemy wizę do paszportu. Przy okazji możemy wymienić obok dolary/euro na rupie nepalskie w oficjalnym kantorze. Podobno to jedyne miejsce w gdzie dostaniemy potwierdzenie wymiany na podstawie którego będziemy mogli również zwrócić rupie i odzyskać dolary gdy będziemy już wracać. Dlatego pamiętaj żeby wziąć papierek z kantoru i poprosić o niego jeśli Ci nie dadzą. Mi nie dali, choć i tak nie byłby mi potrzebny bo w ostatni dzień byłem już całkowicie spłukany z rupii.
+
+<Map
+  locations={{
+    name: "Kathmandu, Nepal",
+    lat: 27.7172,
+    lng: 85.324
+  }}
+  title="Lokalizacja: Kathmandu"
+  zoom={12}
+/>
 
 Ile kosztuje wiza do Nepalu? (stan na 2022 r.)
 Pobyt do 15 dni - 30 USD
@@ -65,6 +76,20 @@ Trekking wokół Annapurny to jedna z najpopularniejszych tras trekkingowych w N
 ## Szlak do Manang
 
 Pierwszy etap trekkingu to przejście z Besisahar do Manang. Jest to około 100 km szlaku, który pokonuje się w 4-5 dni. Trasa prowadzi przez lasy, pola ryżowe, wioski, rzeki i wodospady. Jest to łatwy etap, który pozwala na aklimatyzację do wysokości.
+
+<Map
+  locations={[
+    { name: "Besisahar", lat: 28.6333, lng: 84.3833 },
+    { name: "Bhulbhule", lat: 28.55, lng: 84.42 },
+    { name: "Syange", lat: 28.47, lng: 84.33 },
+    { name: "Dharapani", lat: 28.38, lng: 84.22 },
+    { name: "Chame", lat: 28.5587, lng: 84.2254 },
+    { name: "Lower Pisang", lat: 28.62, lng: 84.04 },
+    { name: "Manang", lat: 28.6667, lng: 84.0167 }
+  ]}
+  title="Trasa: Besisahar → Manang (Annapurna Circuit)"
+  zoom={10}
+/>
 
 <img src={'/static/images/blog/nepal/annapurna-circuit-trail.jpg'} />
 

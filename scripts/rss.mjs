@@ -1,10 +1,50 @@
-import { writeFileSync, mkdirSync } from 'fs';
+import { readFileSync, readdirSync, writeFileSync, mkdirSync } from 'fs';
 import path from 'path';
+import { fileURLToPath } from 'url';
+import matter from 'gray-matter';
 import GithubSlugger from 'github-slugger';
 import { escape } from 'pliny/utils/htmlEscaper.js';
 import siteMetadata from '../data/siteMetadata.js';
-import tagData from '../app/tag-data.json' assert { type: 'json' };
-import { allBlogs } from '../.contentlayer/generated/index.mjs';
+
+const slugifyTag = (tag) => new GithubSlugger().slug(tag);
+const tagData = JSON.parse(readFileSync(new URL('../app/tag-data.json', import.meta.url), 'utf8'));
+
+// Load blog frontmatter directly from MDX files — no compilation needed for RSS
+function loadBlogPosts() {
+  const blogDir = fileURLToPath(new URL('../data/blog', import.meta.url));
+  const results = [];
+
+  function walk(dir) {
+    const entries = readdirSync(dir, { withFileTypes: true });
+    for (const entry of entries) {
+      const full = path.join(dir, entry.name);
+      if (entry.isDirectory()) {
+        walk(full);
+      } else if (/\.(mdx?|md)$/.test(entry.name)) {
+        try {
+          const raw = readFileSync(full, 'utf-8');
+          const { data: fm } = matter(raw);
+          const rel = path.relative(blogDir, full).replace(/\\/g, '/');
+          const slug = rel.replace(/\.(mdx?|md)$/, '');
+          results.push({
+            slug,
+            title: fm.title || '',
+            date: fm.date ? String(fm.date).split('T')[0] : '',
+            summary: fm.summary || '',
+            tags: Array.isArray(fm.tags) ? fm.tags : [],
+            draft: fm.draft ?? false,
+          });
+        } catch { /* skip malformed files */ }
+      }
+    }
+  }
+
+  walk(blogDir);
+  results.sort((a, b) => (a.date > b.date ? -1 : a.date < b.date ? 1 : 0));
+  return results;
+}
+
+const allBlogs = loadBlogPosts();
 
 const generateRssItem = (config, post) => `
   <item>
@@ -45,7 +85,7 @@ async function generateRSS(config, allBlogs, page = 'feed.xml') {
   if (publishPosts.length > 0) {
     for (const tag of Object.keys(tagData)) {
       const filteredPosts = allBlogs.filter((post) =>
-        post.tags.map((t) => GithubSlugger.slug(t)).includes(tag)
+        post.tags.map((t) => slugifyTag(t)).includes(tag)
       );
       const rss = generateRss(config, filteredPosts, `tags/${tag}/${page}`);
       const rssPath = path.join('public', 'tags', tag);
