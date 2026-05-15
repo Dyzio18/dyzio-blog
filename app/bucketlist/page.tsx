@@ -2,7 +2,7 @@ import projectsData from '@/data/projectsData';
 import Card from '@/components/Card';
 import { genPageMetadata } from 'app/seo';
 
-export const metadata = genPageMetadata({ title: 'Projects' });
+export const metadata = genPageMetadata({ title: 'Bucket list' });
 
 export default function Projects() {
   const destinations = [
@@ -74,7 +74,7 @@ export default function Projects() {
           <ol className="-m-4 list-decimal">
             {destinations.map((destination, index) => (
               <li key={index} className="py-1 block">
-                {index + 1}. {destination}
+                {destination}
               </li>
             ))}
           </ol>

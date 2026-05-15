@@ -91,7 +91,7 @@ export default function TravelMap() {
           <h2 className="text-2xl font-bold mb-4 text-gray-900 dark:text-gray-100">
             All Destinations
           </h2>
-          {/* <TravelMapClient locations={mapLocations} /> */}
+          <TravelMapClient locations={mapLocations} />
         </div>
 
         <div className="py-8">

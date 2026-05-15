@@ -88,7 +88,7 @@ const HeroSection = () => {
     <div className="bg-dot relative isolate overflow-hidden bg-gray-900 py-6 sm:py-12">
       <div className="mx-auto max-w-7xl px-6 lg:px-8">
         <div className="mx-auto lg:mx-0">
-          <h2 className="text-4xl font-bold tracking-tight sm:text-6xl">Siema!</h2>
+          <h1 className="text-4xl font-bold tracking-tight sm:text-6xl">Siema!</h1>
           <p className="mt-6 text-xl leading-8">
             To mój blok osobisty, nazywam się Patryk Nizio. Jestem programistą oraz pasjonatem
             JS/TS. Uwielbiam realizować swoje pomysły i cele. Na tym blogu dzielę się swoją wiedzą i
