@@ -4,8 +4,12 @@ import Link from './Link';
 import MobileNav from './MobileNav';
 import ThemeSwitch from './ThemeSwitch';
 import SearchButton from './SearchButton';
+import LangSwitch from './LangSwitch';
+import { getDictionary } from '@/lib/i18n/getDictionary';
 
-const Header = () => {
+const Header = async () => {
+  const { dict } = await getDictionary();
+
   return (
     <header className="flex items-center justify-between py-10">
       <div>
@@ -26,14 +30,15 @@ const Header = () => {
           .filter((link) => link.href !== '/')
           .map((link) => (
             <Link
-              key={link.title}
+              key={link.key}
               href={link.href}
               className="hidden sm:block font-medium text-gray-900 dark:text-gray-100"
             >
-              {link.title}
+              {dict.nav[link.key]}
             </Link>
           ))}
         <SearchButton />
+        <LangSwitch />
         <ThemeSwitch />
         <MobileNav />
       </div>
