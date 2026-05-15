@@ -29,13 +29,13 @@ interface LayoutProps {
 
 export default async function PostLayout({ content, authorDetails, next, prev, children }: LayoutProps) {
   const { dict } = await getDictionary();
-  const { filePath, path, slug, date, title, tags } = content;
+  const { filePath, path, slug, date, title, tags, mode } = content;
   const basePath = path.split('/')[0];
 
   return (
     <SectionContainer>
       <ScrollTopAndComment />
-      <article>
+      <article data-mode={mode}>
         <div className="xl:divide-y xl:divide-gray-200 xl:dark:divide-gray-700">
           <header className="pt-6 xl:pb-6">
             <div className="space-y-1 text-center">

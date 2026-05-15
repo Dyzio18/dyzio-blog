@@ -1,7 +1,38 @@
 import type { PostDocument, AuthorDocument, StaticPageDocument } from '../schema/types'
 import { contentRepository } from '../repository/content-repository'
 
-export type CorePost = Omit<PostDocument, 'bodyRaw' | 'bodyCode'>
+export type PostMode = 'travel' | 'dev' | 'default'
+
+const TRAVEL_TAGS = new Set([
+  'travel', 'podroze', 'travels',
+  'azja', 'amazonia', 'nepal', 'maroko', 'afryka',
+  'korea', 'indonezja', 'tajlandia', 'peru', 'kolumbia', 'brazylia',
+  'ameryka-poludniowa', 'agadir', 'bangkok', 'chiang-mai', 'bali', 'seul',
+  'hiking', 'trekking', 'mountains',
+])
+
+const DEV_TAGS = new Set([
+  'dev', 'ai', 'frontend',
+  'javascript', 'typescript', 'js', 'ts',
+  'react', 'next.js', 'nextjs', 'redux', 'redux-saga',
+  'node.js', 'nodejs', 'express.js', 'nest.js',
+  'ssr', 'csv', 'english',
+])
+
+export function getPostMode(tags: string[] | undefined): PostMode {
+  if (!tags || tags.length === 0) return 'default'
+  for (const tag of tags) {
+    const slug = tag.toLowerCase().replace(/\s+/g, '-')
+    if (TRAVEL_TAGS.has(slug)) return 'travel'
+  }
+  for (const tag of tags) {
+    const slug = tag.toLowerCase().replace(/\s+/g, '-')
+    if (DEV_TAGS.has(slug)) return 'dev'
+  }
+  return 'default'
+}
+
+export type CorePost = Omit<PostDocument, 'bodyRaw' | 'bodyCode'> & { mode: PostMode }
 export type CoreAuthor = Omit<AuthorDocument, 'bodyRaw' | 'bodyCode'>
 export type CorePage = Omit<StaticPageDocument, 'bodyRaw' | 'bodyCode'>
 
@@ -15,7 +46,7 @@ export function sortPosts(posts: PostDocument[]): PostDocument[] {
 
 export function coreContent(post: PostDocument): CorePost {
   const { bodyRaw, bodyCode, ...rest } = post
-  return rest as CorePost
+  return { ...rest, mode: getPostMode(rest.tags) }
 }
 
 export function coreAuthor(author: AuthorDocument): CoreAuthor {

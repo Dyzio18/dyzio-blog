@@ -1,6 +1,6 @@
 import 'css/tailwind.css';
 
-import { Space_Grotesk } from 'next/font/google';
+import { Space_Grotesk, Fraunces, JetBrains_Mono } from 'next/font/google';
 import Analytics from '@/components/Analytics';
 import Header from '@/components/Header';
 import SectionContainer from '@/components/SectionContainer';
@@ -16,6 +16,18 @@ const space_grotesk = Space_Grotesk({
   subsets: ['latin'],
   display: 'swap',
   variable: '--font-space-grotesk',
+});
+
+const fraunces = Fraunces({
+  subsets: ['latin', 'latin-ext'],
+  display: 'swap',
+  variable: '--font-display-serif',
+});
+
+const jetbrains_mono = JetBrains_Mono({
+  subsets: ['latin', 'latin-ext'],
+  display: 'swap',
+  variable: '--font-display-mono',
 });
 
 export const metadata: Metadata = {
@@ -63,7 +75,7 @@ export default async function RootLayout({ children }: { children: React.ReactNo
   return (
     <html
       lang={lang}
-      className={`${space_grotesk.variable} scroll-smooth`}
+      className={`${space_grotesk.variable} ${fraunces.variable} ${jetbrains_mono.variable} scroll-smooth`}
       suppressHydrationWarning
     >
       <link rel="apple-touch-icon" sizes="76x76" href="/static/favicons/apple-touch-icon.png" />

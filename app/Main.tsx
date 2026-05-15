@@ -4,6 +4,7 @@ import Tag from '@/components/Tag';
 import { formatDate } from '@/content/utils/formatDate';
 import siteMetadata from '@/data/siteMetadata';
 import type { Dictionary } from '@/lib/i18n/dictionaries/pl';
+import type { PostMode } from '@/content/queries';
 
 const MAX_DISPLAY = 5;
 
@@ -14,6 +15,7 @@ interface HomeProps {
     title: string;
     summary?: string;
     tags: string[];
+    mode: PostMode;
   }[];
   dict: Dictionary;
 }
@@ -26,9 +28,9 @@ export default function Home({ posts, dict }: HomeProps) {
         <ul className="divide-y divide-gray-200 dark:divide-gray-700 mt-5">
           {!posts.length && dict.home.noPosts}
           {posts.slice(0, MAX_DISPLAY).map((post) => {
-            const { slug, date, title, summary, tags } = post;
+            const { slug, date, title, summary, tags, mode } = post;
             return (
-              <li key={slug} className="py-12">
+              <li key={slug} className="py-12" data-mode={mode}>
                 <article>
                   <div className="space-y-2 xl:grid xl:grid-cols-4 xl:items-baseline xl:space-y-0">
                     <dl>
