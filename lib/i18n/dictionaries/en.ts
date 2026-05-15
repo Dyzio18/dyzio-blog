@@ -56,9 +56,6 @@ export const en: Dictionary = {
     back: 'Back',
     tagsHeading: 'Tags',
   },
-  about: {
-    title: 'About Me / Contact',
-  },
   langSwitch: {
     pl: 'PL',
     en: 'EN',

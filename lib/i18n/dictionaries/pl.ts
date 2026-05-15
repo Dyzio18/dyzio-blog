@@ -53,9 +53,6 @@ export type Dictionary = {
     back: string;
     tagsHeading: string;
   };
-  about: {
-    title: string;
-  };
   langSwitch: {
     pl: string;
     en: string;
@@ -118,9 +115,6 @@ export const pl: Dictionary = {
     nextArticle: 'Następny wpis',
     back: 'Powrót',
     tagsHeading: 'Tagi',
-  },
-  about: {
-    title: 'O mnie / Kontakt',
   },
   langSwitch: {
     pl: 'PL',
