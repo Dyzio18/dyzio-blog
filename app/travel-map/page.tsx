@@ -3,6 +3,7 @@ import SectionContainer from '@/components/SectionContainer';
 import PageTitle from '@/components/PageTitle';
 import TravelMapClient from '@/components/TravelMapClient';
 import { genPageMetadata } from 'app/seo';
+import { getDictionary } from '@/lib/i18n/getDictionary';
 
 export const metadata = genPageMetadata({
   title: 'Travel Map',
@@ -62,7 +63,9 @@ const trips = [
   },
 ];
 
-export default function TravelMap() {
+export default async function TravelMap() {
+  const { dict } = await getDictionary();
+
   const mapLocations = allDestinations.map((d) => ({
     name: d.name,
     lat: d.lat,
@@ -81,22 +84,22 @@ export default function TravelMap() {
     <SectionContainer>
       <div className="divide-y divide-gray-200 dark:divide-gray-700">
         <div className="space-y-2 pb-8 pt-6">
-          <PageTitle>Travel Map</PageTitle>
+          <PageTitle>{dict.travelMap.title}</PageTitle>
           <p className="text-lg leading-7 text-gray-500 dark:text-gray-400">
-            World map with all travel destinations and links to blog posts.
+            {dict.travelMap.subtitle}
           </p>
         </div>
 
         <div className="py-8">
           <h2 className="text-2xl font-bold mb-4 text-gray-900 dark:text-gray-100">
-            All Destinations
+            {dict.travelMap.allDestinations}
           </h2>
           <TravelMapClient locations={mapLocations} />
         </div>
 
         <div className="py-8">
           <h2 className="text-2xl font-bold mb-6 text-gray-900 dark:text-gray-100">
-            Trips
+            {dict.travelMap.trips}
           </h2>
           <div className="space-y-8">
             {uniqueTrips.map((trip) => (
@@ -115,7 +118,7 @@ export default function TravelMap() {
                     href={trip.post}
                     className="mt-2 sm:mt-0 text-primary-500 hover:text-primary-600 dark:hover:text-primary-400 font-medium"
                   >
-                    Read more →
+                    {dict.travelMap.readMore} →
                   </Link>
                 </div>
                 <p className="text-gray-600 dark:text-gray-300 mb-4">{trip.description}</p>
