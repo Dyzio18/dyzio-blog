@@ -3,16 +3,28 @@ import NewsletterForm from '@/components/NewsletterForm';
 import Tag from '@/components/Tag';
 import { formatDate } from '@/content/utils/formatDate';
 import siteMetadata from '@/data/siteMetadata';
+import type { Dictionary } from '@/lib/i18n/dictionaries/pl';
 
 const MAX_DISPLAY = 5;
 
-export default function Home({ posts }) {
+interface HomeProps {
+  posts: {
+    slug: string;
+    date: string;
+    title: string;
+    summary?: string;
+    tags: string[];
+  }[];
+  dict: Dictionary;
+}
+
+export default function Home({ posts, dict }: HomeProps) {
   return (
     <>
       <div className="divide-y divide-gray-200 dark:divide-gray-700">
-        <HeroSection />
+        <HeroSection dict={dict} />
         <ul className="divide-y divide-gray-200 dark:divide-gray-700 mt-5">
-          {!posts.length && 'No posts found.'}
+          {!posts.length && dict.home.noPosts}
           {posts.slice(0, MAX_DISPLAY).map((post) => {
             const { slug, date, title, summary, tags } = post;
             return (
@@ -52,7 +64,7 @@ export default function Home({ posts }) {
                           className="text-primary-500 hover:text-primary-600 dark:hover:text-primary-400"
                           aria-label={`Read "${title}"`}
                         >
-                          Read more &rarr;
+                          {dict.home.readMore} &rarr;
                         </Link>
                       </div>
                     </div>
@@ -70,7 +82,7 @@ export default function Home({ posts }) {
             className="text-primary-500 hover:text-primary-600 dark:hover:text-primary-400"
             aria-label="All posts"
           >
-            All Posts &rarr;
+            {dict.home.allPosts} &rarr;
           </Link>
         </div>
       )}
@@ -83,32 +95,29 @@ export default function Home({ posts }) {
   );
 }
 
-const HeroSection = () => {
+const HeroSection = ({ dict }: { dict: Dictionary }) => {
   return (
     <div className="bg-dot relative isolate overflow-hidden bg-gray-900 py-6 sm:py-12">
       <div className="mx-auto max-w-7xl px-6 lg:px-8">
         <div className="mx-auto lg:mx-0">
-          <h1 className="text-4xl font-bold tracking-tight sm:text-6xl">Siema!</h1>
+          <h1 className="text-4xl font-bold tracking-tight sm:text-6xl">{dict.home.heroGreeting}</h1>
           <p className="mt-6 text-xl leading-8">
-            To mój blok osobisty, nazywam się Patryk Nizio. Jestem programistą oraz pasjonatem
-            JS/TS. Uwielbiam realizować swoje pomysły i cele. Na tym blogu dzielę się swoją wiedzą i
-            doświadczeniem. Czasem piszę o technologiach, czasem o życiu i podróżach. Zapraszam do
-            czytania!
+            {dict.home.heroBody}
           </p>
         </div>
         <div className="mx-auto mt-10 max-w-2xl lg:mx-0 lg:max-w-none">
           <div className="grid grid-cols-1 gap-x-8 gap-y-6 text-base font-semibold leading-7 sm:grid-cols-2 md:flex lg:gap-x-10">
             <Link href="/blog">
-              Blog <span aria-hidden="true">&rarr;</span>
+              {dict.home.heroLinkBlog} <span aria-hidden="true">&rarr;</span>
             </Link>
             <Link href="/eqchange">
-              Platforma eqchange <span aria-hidden="true">&rarr;</span>
+              {dict.home.heroLinkEqchange} <span aria-hidden="true">&rarr;</span>
             </Link>
             <Link href="/bucketlist">
-              Lista celów <span aria-hidden="true">&rarr;</span>
+              {dict.home.heroLinkBucketlist} <span aria-hidden="true">&rarr;</span>
             </Link>
             <Link href="/about">
-              Kontakt <span aria-hidden="true">&rarr;</span>
+              {dict.home.heroLinkContact} <span aria-hidden="true">&rarr;</span>
             </Link>
           </div>
         </div>

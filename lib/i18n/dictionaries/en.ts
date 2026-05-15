@@ -48,6 +48,17 @@ export const en: Dictionary = {
     title: 'Projects',
     subtitle: "My private projects I'm working on.",
   },
+  postLayout: {
+    authorsHeading: 'Authors',
+    viewOnGithub: 'View on GitHub',
+    previousArticle: 'Previous Article',
+    nextArticle: 'Next Article',
+    back: 'Back',
+    tagsHeading: 'Tags',
+  },
+  about: {
+    title: 'About Me / Contact',
+  },
   langSwitch: {
     pl: 'PL',
     en: 'EN',

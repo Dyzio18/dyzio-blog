@@ -45,6 +45,17 @@ export type Dictionary = {
     title: string;
     subtitle: string;
   };
+  postLayout: {
+    authorsHeading: string;
+    viewOnGithub: string;
+    previousArticle: string;
+    nextArticle: string;
+    back: string;
+    tagsHeading: string;
+  };
+  about: {
+    title: string;
+  };
   langSwitch: {
     pl: string;
     en: string;
@@ -99,6 +110,17 @@ export const pl: Dictionary = {
   projects: {
     title: 'Projekty',
     subtitle: 'Moje prywatne projekty, nad którymi pracuję.',
+  },
+  postLayout: {
+    authorsHeading: 'Autorzy',
+    viewOnGithub: 'Zobacz na GitHubie',
+    previousArticle: 'Poprzedni wpis',
+    nextArticle: 'Następny wpis',
+    back: 'Powrót',
+    tagsHeading: 'Tagi',
+  },
+  about: {
+    title: 'O mnie / Kontakt',
   },
   langSwitch: {
     pl: 'PL',

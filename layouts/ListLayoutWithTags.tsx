@@ -7,6 +7,7 @@ import type { CorePost } from '@/content/queries';
 import Link from '@/components/Link';
 import Tag from '@/components/Tag';
 import siteMetadata from '@/data/siteMetadata';
+import { useT } from '@/lib/i18n/I18nProvider';
 
 interface PaginationProps {
   totalPages: number;
@@ -25,13 +26,14 @@ function Pagination({ totalPages, currentPage }: PaginationProps) {
   const basePath = pathname.split('/')[1];
   const prevPage = currentPage - 1 > 0;
   const nextPage = currentPage + 1 <= totalPages;
+  const { dict } = useT();
 
   return (
     <div className="space-y-2 pb-8 pt-6 md:space-y-5">
       <nav className="flex justify-between">
         {!prevPage && (
           <button className="cursor-auto disabled:opacity-50" disabled={!prevPage}>
-            Previous
+            {dict.blog.previous}
           </button>
         )}
         {prevPage && (
@@ -39,20 +41,20 @@ function Pagination({ totalPages, currentPage }: PaginationProps) {
             href={currentPage - 1 === 1 ? `/${basePath}/` : `/${basePath}/page/${currentPage - 1}`}
             rel="prev"
           >
-            Previous
+            {dict.blog.previous}
           </Link>
         )}
         <span>
-          {currentPage} of {totalPages}
+          {currentPage} {dict.blog.of} {totalPages}
         </span>
         {!nextPage && (
           <button className="cursor-auto disabled:opacity-50" disabled={!nextPage}>
-            Next
+            {dict.blog.next}
           </button>
         )}
         {nextPage && (
           <Link href={`/${basePath}/page/${currentPage + 1}`} rel="next">
-            Next
+            {dict.blog.next}
           </Link>
         )}
       </nav>
@@ -68,6 +70,7 @@ export default function ListLayoutWithTags({
   pagination,
 }: ListLayoutProps) {
   const pathname = usePathname();
+  const { dict } = useT();
   const tagKeys = Object.keys(tagCounts);
   const sortedTags = tagKeys.sort((a, b) => tagCounts[b] - tagCounts[a]);
 
@@ -85,13 +88,13 @@ export default function ListLayoutWithTags({
           <div className="hidden max-h-screen h-full sm:flex flex-wrap bg-gray-50 dark:bg-gray-900/70 shadow-md pt-5 dark:shadow-gray-800/40 rounded min-w-[280px] max-w-[280px] overflow-auto">
             <div className="py-4 px-6">
               {pathname.startsWith('/blog') ? (
-                <h3 className="text-primary-500 font-bold uppercase">All Posts</h3>
+                <h3 className="text-primary-500 font-bold uppercase">{dict.blog.allPostsHeading}</h3>
               ) : (
                 <Link
                   href={`/blog`}
                   className="font-bold uppercase text-gray-700 dark:text-gray-300 hover:text-primary-500 dark:hover:text-primary-500"
                 >
-                  All Posts
+                  {dict.blog.allPostsHeading}
                 </Link>
               )}
               <ul>
