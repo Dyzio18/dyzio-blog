@@ -5,6 +5,7 @@ import { slug } from 'github-slugger';
 import { formatDate } from '@/content/utils/formatDate';
 import type { CorePost } from '@/content/queries';
 import Link from '@/components/Link';
+import Image from '@/components/Image';
 import Tag from '@/components/Tag';
 import siteMetadata from '@/data/siteMetadata';
 import { useT } from '@/lib/i18n/I18nProvider';
@@ -121,30 +122,69 @@ export default function ListLayoutWithTags({
             </div>
           </div>
           <div>
+            {/* Mobile-only filter chips */}
+            <div className="mb-4 flex gap-2 overflow-x-auto sm:hidden">
+              <Link
+                href="/blog"
+                className="shrink-0 rounded-full bg-primary-500/10 px-3 py-1 text-xs font-medium uppercase tracking-wide text-primary-600 transition hover:bg-primary-500/20 dark:text-primary-300 dark:hover:bg-primary-500/25"
+              >
+                {dict.blog.allPostsHeading}
+              </Link>
+              <Link
+                href="/tags/travel"
+                className="shrink-0 rounded-full bg-primary-500/10 px-3 py-1 text-xs font-medium uppercase tracking-wide text-primary-600 transition hover:bg-primary-500/20 dark:text-primary-300 dark:hover:bg-primary-500/25"
+              >
+                {dict.blog.filterTravel}
+              </Link>
+              <Link
+                href="/tags/dev"
+                className="shrink-0 rounded-full bg-primary-500/10 px-3 py-1 text-xs font-medium uppercase tracking-wide text-primary-600 transition hover:bg-primary-500/20 dark:text-primary-300 dark:hover:bg-primary-500/25"
+              >
+                {dict.blog.filterDev}
+              </Link>
+              <Link
+                href="/tags/zycie"
+                className="shrink-0 rounded-full bg-primary-500/10 px-3 py-1 text-xs font-medium uppercase tracking-wide text-primary-600 transition hover:bg-primary-500/20 dark:text-primary-300 dark:hover:bg-primary-500/25"
+              >
+                {dict.blog.filterLife}
+              </Link>
+            </div>
             <ul>
               {displayPosts.map((post) => {
-                const { path, date, title, summary, tags } = post;
+                const { path, date, title, summary, tags, mode, images, readingTime } = post;
+                const coverImage = images?.[0];
+                const rtText = readingTime.text.replace('min read', 'min czytania');
                 return (
-                  <li key={path} className="py-5">
-                    <article className="space-y-2 flex flex-col xl:space-y-0">
-                      <dl>
-                        <dt className="sr-only">Published on</dt>
-                        <dd className="text-base font-medium leading-6 text-gray-500 dark:text-gray-400">
-                          <time dateTime={date}>{formatDate(date, siteMetadata.locale)}</time>
-                        </dd>
-                      </dl>
-                      <div className="space-y-3">
-                        <div>
-                          <h2 className="text-2xl font-bold leading-8 tracking-tight">
-                            <Link href={`/${path}`} className="text-gray-900 dark:text-gray-100">
-                              {title}
-                            </Link>
-                          </h2>
-                          <div className="flex flex-wrap">
-                            {tags?.map((tag) => <Tag key={tag} text={tag} />)}
+                  <li key={path} className="py-5" data-mode={mode}>
+                    <article className="group flex flex-col gap-4 transition-all hover:-translate-y-0.5">
+                      {coverImage && (
+                        <Link href={`/${path}`} className="block">
+                          <div className="aspect-[16/9] overflow-hidden rounded-lg">
+                            <Image
+                              src={coverImage}
+                              alt={title}
+                              width={480}
+                              height={270}
+                              className="h-full w-full object-cover transition-transform duration-300 group-hover:scale-105"
+                            />
                           </div>
+                        </Link>
+                      )}
+                      <div className="flex flex-col gap-3">
+                        <div className="flex items-center gap-2 text-sm text-gray-500 dark:text-gray-400">
+                          <time dateTime={date}>{formatDate(date, siteMetadata.locale)}</time>
+                          <span>·</span>
+                          <span>{rtText}</span>
                         </div>
-                        <div className="prose max-w-none text-gray-500 dark:text-gray-400">
+                        <h2 className="mt-1 text-2xl font-bold leading-tight tracking-tight">
+                          <Link href={`/${path}`} className="text-gray-900 dark:text-gray-100">
+                            {title}
+                          </Link>
+                        </h2>
+                        <div className="flex flex-wrap">
+                          {tags?.map((tag) => <Tag key={tag} text={tag} />)}
+                        </div>
+                        <div className="prose max-w-none line-clamp-3 text-gray-600 dark:text-gray-400">
                           {summary}
                         </div>
                       </div>

@@ -27,6 +27,9 @@ export const en: Dictionary = {
     next: 'Next',
     of: 'of',
     allPostsHeading: 'All Posts',
+    filterTravel: 'Travel',
+    filterDev: 'Dev',
+    filterLife: 'Life',
   },
   travelMap: {
     title: 'Travel map',

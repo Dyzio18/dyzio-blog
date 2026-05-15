@@ -24,6 +24,9 @@ export type Dictionary = {
     next: string;
     of: string;
     allPostsHeading: string;
+    filterTravel: string;
+    filterDev: string;
+    filterLife: string;
   };
   travelMap: {
     title: string;
@@ -87,6 +90,9 @@ export const pl: Dictionary = {
     next: 'Następna',
     of: 'z',
     allPostsHeading: 'Wszystkie wpisy',
+    filterTravel: 'Podróże',
+    filterDev: 'Dev',
+    filterLife: 'Życie',
   },
   travelMap: {
     title: 'Mapa podróży',
