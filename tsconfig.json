@@ -35,6 +35,9 @@
       ],
       "@/content/*": [
         "src/content/*"
+      ],
+      "@/lib/*": [
+        "lib/*"
       ]
     },
     "plugins": [

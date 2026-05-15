@@ -9,6 +9,8 @@ import { SearchProvider } from '@/components/search/SearchProvider';
 import siteMetadata from '@/data/siteMetadata';
 import { ThemeProviders } from './theme-providers';
 import { Metadata } from 'next';
+import { getDictionary } from '@/lib/i18n/getDictionary';
+import { I18nProvider } from '@/lib/i18n/I18nProvider';
 
 const space_grotesk = Space_Grotesk({
   subsets: ['latin'],
@@ -56,10 +58,11 @@ export const metadata: Metadata = {
   },
 };
 
-export default function RootLayout({ children }: { children: React.ReactNode }) {
+export default async function RootLayout({ children }: { children: React.ReactNode }) {
+  const { lang, dict } = await getDictionary();
   return (
     <html
-      lang={siteMetadata.language}
+      lang={lang}
       className={`${space_grotesk.variable} scroll-smooth`}
       suppressHydrationWarning
     >
@@ -74,16 +77,18 @@ export default function RootLayout({ children }: { children: React.ReactNode }) 
       <link rel="alternate" type="application/rss+xml" href="/feed.xml" />
       <body className="bg-white text-black antialiased dark:bg-gray-950 dark:text-white">
         <ThemeProviders>
-          <Analytics />
-          <SectionContainer>
-            <div className="flex h-screen flex-col justify-between font-sans">
-              <SearchProvider searchConfig={siteMetadata.search}>
-                <Header />
-                <main className="mb-auto">{children}</main>
-              </SearchProvider>
-              <Footer />
-            </div>
-          </SectionContainer>
+          <I18nProvider lang={lang} dict={dict}>
+            <Analytics />
+            <SectionContainer>
+              <div className="flex h-screen flex-col justify-between font-sans">
+                <SearchProvider searchConfig={siteMetadata.search}>
+                  <Header />
+                  <main className="mb-auto">{children}</main>
+                </SearchProvider>
+                <Footer />
+              </div>
+            </SectionContainer>
+          </I18nProvider>
         </ThemeProviders>
       </body>
     </html>
