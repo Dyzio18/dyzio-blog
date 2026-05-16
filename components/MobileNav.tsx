@@ -1,6 +1,6 @@
 'use client';
 
-import { useState } from 'react';
+import { useState, useEffect } from 'react';
 import Link from './Link';
 import headerNavLinks from '@/data/headerNavLinks';
 import { useT } from '@/lib/i18n/I18nProvider';
@@ -8,6 +8,12 @@ import { useT } from '@/lib/i18n/I18nProvider';
 const MobileNav = () => {
   const [navShow, setNavShow] = useState(false);
   const { dict } = useT();
+
+  useEffect(() => {
+    return () => {
+      document.body.style.overflow = 'auto';
+    };
+  }, []);
 
   const onToggleNav = () => {
     setNavShow((status) => {

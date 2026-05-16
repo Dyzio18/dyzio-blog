@@ -69,4 +69,8 @@ export const en: Dictionary = {
     en: 'EN',
     aria: 'Change language',
   },
+  a11y: {
+    skipToContent: 'Skip to content',
+    activeNavLink: 'Current page',
+  },
 };

@@ -88,6 +88,12 @@ export default async function RootLayout({ children }: { children: React.ReactNo
       <meta name="theme-color" media="(prefers-color-scheme: dark)" content="#000" />
       <link rel="alternate" type="application/rss+xml" href="/feed.xml" />
       <body className="bg-white text-black antialiased dark:bg-gray-950 dark:text-white">
+        <a
+          href="#main-content"
+          className="sr-only focus:not-sr-only focus:fixed focus:left-4 focus:top-4 focus:z-50 focus:rounded focus:bg-primary-500 focus:px-4 focus:py-2 focus:text-white"
+        >
+          {dict.a11y.skipToContent}
+        </a>
         <ThemeProviders>
           <I18nProvider lang={lang} dict={dict}>
             <Analytics />
@@ -95,7 +101,7 @@ export default async function RootLayout({ children }: { children: React.ReactNo
               <div className="flex h-screen flex-col justify-between font-sans">
                 <SearchProvider searchConfig={siteMetadata.search}>
                   <Header />
-                  <main className="mb-auto">{children}</main>
+                  <main id="main-content" className="mb-auto">{children}</main>
                 </SearchProvider>
                 <Footer />
               </div>

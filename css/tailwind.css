@@ -90,6 +90,26 @@
   [data-mode='dev'] .prose code {
     font-family: var(--font-display-mono), monospace;
   }
+
+  /* Global focus ring — visible in both light and dark modes */
+  :focus-visible {
+    outline: 2px solid rgb(var(--primary-500));
+    outline-offset: 2px;
+    border-radius: 2px;
+  }
+
+  /* Respect reduced-motion preference — override scroll-smooth and animations */
+  @media (prefers-reduced-motion: reduce) {
+    html {
+      scroll-behavior: auto;
+    }
+    * {
+      animation-duration: 0.01ms !important;
+      animation-iteration-count: 1 !important;
+      transition-duration: 0.01ms !important;
+      scroll-behavior: auto !important;
+    }
+  }
 }
 
 .task-list-item::before {

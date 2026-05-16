@@ -66,6 +66,10 @@ export type Dictionary = {
     en: string;
     aria: string;
   };
+  a11y: {
+    skipToContent: string;
+    activeNavLink: string;
+  };
 };
 
 export const pl: Dictionary = {
@@ -136,5 +140,9 @@ export const pl: Dictionary = {
     pl: 'PL',
     en: 'EN',
     aria: 'Zmień język',
+  },
+  a11y: {
+    skipToContent: 'Przejdź do treści',
+    activeNavLink: 'Bieżąca strona',
   },
 };
