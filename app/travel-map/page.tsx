@@ -70,6 +70,8 @@ export default async function TravelMap() {
     name: d.name,
     lat: d.lat,
     lng: d.lng,
+    post: d.post,
+    trip: d.trip,
   }));
 
   const uniqueTrips = Array.from(new Set(allDestinations.map((d) => d.trip))).map((tripName) => {
@@ -80,6 +82,12 @@ export default async function TravelMap() {
     };
   });
 
+  const cityCount = allDestinations.length;
+  const countryCount = new Set(
+    allDestinations.map((d) => d.name.split(',').pop()?.trim()).filter(Boolean)
+  ).size;
+  const reportageCount = uniqueTrips.length;
+
   return (
     <SectionContainer>
       <div className="divide-y divide-gray-200 dark:divide-gray-700" data-mode="travel">
@@ -88,53 +96,54 @@ export default async function TravelMap() {
           <p className="text-lg leading-7 text-gray-500 dark:text-gray-400">
             {dict.travelMap.subtitle}
           </p>
+          <div className="flex flex-wrap gap-x-8 gap-y-2 py-6 text-sm text-gray-600 dark:text-gray-400">
+            <span>
+              <strong className="text-gray-900 dark:text-gray-100">{countryCount}</strong>{' '}
+              {dict.travelMap.statCountries}
+            </span>
+            <span>
+              <strong className="text-gray-900 dark:text-gray-100">{cityCount}</strong>{' '}
+              {dict.travelMap.statCities}
+            </span>
+            <span>
+              <strong className="text-gray-900 dark:text-gray-100">{reportageCount}</strong>{' '}
+              {dict.travelMap.statReportages}
+            </span>
+          </div>
         </div>
 
         <div className="py-8">
-          <h2 className="text-2xl font-bold mb-4 text-gray-900 dark:text-gray-100">
-            {dict.travelMap.allDestinations}
-          </h2>
           <TravelMapClient locations={mapLocations} />
         </div>
 
-        <div className="py-8">
-          <h2 className="text-2xl font-bold mb-6 text-gray-900 dark:text-gray-100">
+        <div className="py-10">
+          <h2 className="mb-6 text-2xl font-bold text-gray-900 dark:text-gray-100">
             {dict.travelMap.trips}
           </h2>
-          <div className="space-y-8">
+          <ul className="-mx-4 flex gap-4 overflow-x-auto px-4 pb-4 snap-x snap-mandatory">
             {uniqueTrips.map((trip) => (
-              <div
+              <li
                 key={trip.name}
-                className="rounded-lg border border-gray-200 dark:border-gray-700 p-6"
+                className="snap-start shrink-0 w-72 sm:w-80 rounded-lg border border-gray-200 dark:border-gray-700 p-5"
               >
-                <div className="flex flex-col sm:flex-row sm:items-center sm:justify-between mb-4">
-                  <div>
-                    <h3 className="text-xl font-semibold text-gray-900 dark:text-gray-100">
-                      {trip.name}
-                    </h3>
-                    <p className="text-sm text-gray-500 dark:text-gray-400">{trip.date}</p>
-                  </div>
-                  <Link
-                    href={trip.post}
-                    className="mt-2 sm:mt-0 text-primary-500 hover:text-primary-600 dark:hover:text-primary-400 font-medium"
-                  >
-                    {dict.travelMap.readMore} →
-                  </Link>
-                </div>
-                <p className="text-gray-600 dark:text-gray-300 mb-4">{trip.description}</p>
-                <div className="flex flex-wrap gap-2">
-                  {trip.destinations.map((dest) => (
-                    <span
-                      key={dest.name}
-                      className="inline-flex items-center px-3 py-1 rounded-full text-sm bg-gray-100 dark:bg-gray-800 text-gray-700 dark:text-gray-300"
-                    >
-                      📍 {dest.name}
-                    </span>
-                  ))}
-                </div>
-              </div>
+                <p className="text-xs uppercase tracking-wide text-gray-500 dark:text-gray-400">
+                  {trip.date}
+                </p>
+                <h3 className="mt-1 text-lg font-semibold text-gray-900 dark:text-gray-100">
+                  {trip.name}
+                </h3>
+                <p className="mt-2 text-sm text-gray-600 dark:text-gray-300 line-clamp-3">
+                  {trip.description}
+                </p>
+                <Link
+                  href={trip.post}
+                  className="mt-3 inline-block text-sm font-medium text-primary-500 hover:text-primary-600"
+                >
+                  {dict.travelMap.readMore} →
+                </Link>
+              </li>
             ))}
-          </div>
+          </ul>
         </div>
       </div>
     </SectionContainer>

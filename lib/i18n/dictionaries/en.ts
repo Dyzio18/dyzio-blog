@@ -37,6 +37,9 @@ export const en: Dictionary = {
     allDestinations: 'All destinations',
     trips: 'Trips',
     readMore: 'Read more',
+    statCountries: 'countries',
+    statCities: 'cities',
+    statReportages: 'reportages',
   },
   tags: {
     title: 'Tags',

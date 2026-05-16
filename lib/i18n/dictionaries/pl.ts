@@ -34,6 +34,9 @@ export type Dictionary = {
     allDestinations: string;
     trips: string;
     readMore: string;
+    statCountries: string;
+    statCities: string;
+    statReportages: string;
   };
   tags: {
     title: string;
@@ -102,6 +105,9 @@ export const pl: Dictionary = {
     allDestinations: 'Wszystkie miejsca',
     trips: 'Wyprawy',
     readMore: 'Czytaj dalej',
+    statCountries: 'krajów',
+    statCities: 'miast',
+    statReportages: 'reportaży',
   },
   tags: {
     title: 'Tagi',

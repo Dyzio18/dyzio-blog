@@ -1,17 +1,12 @@
 'use client';
 
 import dynamic from 'next/dynamic';
+import type { MapLocation } from './MapLeaflet';
 
 const LeafletMap = dynamic(() => import('./MapLeaflet'), { ssr: false });
 
-interface Location {
-  name: string;
-  lat: number;
-  lng: number;
-}
-
 interface MapProps {
-  locations: Location[] | Location;
+  locations: MapLocation[] | MapLocation;
   title?: string;
   zoom?: number;
   height?: string;
