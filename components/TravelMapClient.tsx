@@ -1,23 +1,18 @@
 'use client';
 
 import dynamic from 'next/dynamic';
+import type { MapLocation } from './MapLeaflet';
 
 const Map = dynamic(() => import('./MapLeaflet'), { ssr: false });
 
-interface Location {
-  name: string;
-  lat: number;
-  lng: number;
-}
-
 interface TravelMapClientProps {
-  locations: Location[];
+  locations: MapLocation[];
 }
 
 export default function TravelMapClient({ locations }: TravelMapClientProps) {
   return (
-    <div className="rounded-lg overflow-hidden border border-gray-200 dark:border-gray-700">
-      <Map locations={locations} title="" zoom={2} height="h-[500px]" />
+    <div className="w-full overflow-hidden rounded-lg">
+      <Map locations={locations} title="" zoom={2} height="h-[500px] md:h-[600px]" />
     </div>
   );
 }

@@ -2,16 +2,19 @@
 
 import { MapContainer, TileLayer, Marker, Popup, Polyline } from 'react-leaflet';
 import 'leaflet/dist/leaflet.css';
-import Link from 'next/link';
+import { useTheme } from 'next-themes';
+import { useT } from '@/lib/i18n/I18nProvider';
 
-interface Location {
+export interface MapLocation {
   name: string;
   lat: number;
   lng: number;
+  post?: string;
+  trip?: string;
 }
 
 interface MapProps {
-  locations: Location[] | Location;
+  locations: MapLocation[] | MapLocation;
   title?: string;
   zoom?: number;
   height?: string;
@@ -30,6 +33,10 @@ function fixLeafletIcon() {
 }
 
 export default function MapLeaflet({ locations, title, zoom = 10, height = 'h-64' }: MapProps) {
+  // resolvedTheme is undefined until the client has hydrated — use that as the mounted check
+  const { resolvedTheme } = useTheme();
+  const { dict } = useT();
+
   if (typeof window === 'undefined') {
     return null;
   }
@@ -54,6 +61,12 @@ export default function MapLeaflet({ locations, title, zoom = 10, height = 'h-64
       ? `https://www.google.com/maps?q=${locs[0].lat},${locs[0].lng}`
       : `https://www.google.com/maps/dir/${locs.map((l) => `${l.lat},${l.lng}`).join('/')}`;
 
+  // resolvedTheme is undefined before hydration; default to light tiles until resolved
+  const isDark = resolvedTheme === 'dark';
+  const tileUrl = isDark
+    ? 'https://{s}.basemaps.cartocdn.com/dark_all/{z}/{x}/{y}{r}.png'
+    : 'https://{s}.basemaps.cartocdn.com/light_all/{z}/{x}/{y}{r}.png';
+
   return (
     <div className="my-6">
       {title && (
@@ -64,8 +77,10 @@ export default function MapLeaflet({ locations, title, zoom = 10, height = 'h-64
       <div className={`${height} w-full rounded-lg overflow-hidden border border-gray-200 dark:border-gray-700`}>
         <MapContainer center={center} zoom={zoom} className="w-full h-full" scrollWheelZoom={false}>
           <TileLayer
-            attribution='&copy; <a href="https://www.openstreetmap.org/copyright">OpenStreetMap</a> contributors'
-            url="https://{s}.tile.openstreetmap.org/{z}/{x}/{y}.png"
+            attribution='&copy; <a href="https://www.openstreetmap.org/copyright">OpenStreetMap</a> &copy; <a href="https://carto.com/attributions">CARTO</a>'
+            url={tileUrl}
+            subdomains="abcd"
+            maxZoom={19}
           />
 
           {isRoute && <Polyline positions={positions} color="#e11d48" weight={3} dashArray="5, 10" />}
@@ -73,7 +88,15 @@ export default function MapLeaflet({ locations, title, zoom = 10, height = 'h-64
           {locs.map((loc, i) => (
             <Marker key={i} position={[loc.lat, loc.lng]}>
               <Popup>
-                <span className="font-medium">{loc.name}</span>
+                <div className="text-sm">
+                  <p className="font-semibold">{loc.name}</p>
+                  {loc.trip && <p className="text-xs text-gray-600">{loc.trip}</p>}
+                  {loc.post && (
+                    <a href={loc.post} className="text-primary-600 hover:underline mt-1 inline-block">
+                      {dict.travelMap.readMore} →
+                    </a>
+                  )}
+                </div>
               </Popup>
             </Marker>
           ))}
