@@ -4,18 +4,19 @@
 
 @layer base {
   :root {
-    /* Default mode — pink primary (matches current Tailwind colors.pink shades) */
-    --primary-50: 253 242 248;
-    --primary-100: 252 231 243;
-    --primary-200: 251 207 232;
-    --primary-300: 249 168 212;
-    --primary-400: 244 114 182;
-    --primary-500: 236 72 153;
-    --primary-600: 219 39 119;
-    --primary-700: 190 24 93;
-    --primary-800: 157 23 77;
-    --primary-900: 131 24 67;
-    --primary-950: 80 7 36;
+    /* Default mode — emerald green primary (refined brand green, distinct
+       from dev mode's brighter electric green) */
+    --primary-50: 236 253 245;
+    --primary-100: 209 250 229;
+    --primary-200: 167 243 208;
+    --primary-300: 110 231 183;
+    --primary-400: 52 211 153;
+    --primary-500: 16 185 129;
+    --primary-600: 5 150 105;
+    --primary-700: 4 120 87;
+    --primary-800: 6 95 70;
+    --primary-900: 6 78 59;
+    --primary-950: 2 44 34;
   }
 
   [data-mode='travel'] {
