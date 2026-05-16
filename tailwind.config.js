@@ -21,6 +21,12 @@ module.exports = {
         13: '3.25rem',
         14: '3.5rem',
       },
+      fontSize: {
+        'display-xl': ['clamp(2.5rem, 5vw + 1rem, 5rem)', { lineHeight: '1.05', letterSpacing: '-0.02em' }],
+        'display-lg': ['clamp(2rem, 3.5vw + 1rem, 3.5rem)', { lineHeight: '1.1', letterSpacing: '-0.02em' }],
+        'display-md': ['clamp(1.5rem, 2vw + 1rem, 2.25rem)', { lineHeight: '1.2', letterSpacing: '-0.015em' }],
+        'eyebrow': ['0.75rem', { lineHeight: '1.4', letterSpacing: '0.1em' }],
+      },
       fontFamily: {
         sans: ['var(--font-space-grotesk)', ...fontFamily.sans],
         serif: ['var(--font-display-serif)', ...fontFamily.serif],
@@ -46,7 +52,7 @@ module.exports = {
         DEFAULT: {
           css: {
             a: {
-              color: theme('colors.primary.500'),
+              color: theme('colors.primary.600'),
               '&:hover': {
                 color: `${theme('colors.primary.600')}`,
               },
@@ -62,12 +68,28 @@ module.exports = {
             code: {
               color: theme('colors.indigo.500'),
             },
+            p: {
+              lineHeight: '1.75',
+            },
+            'h2,h3': {
+              scrollMarginTop: '5rem',
+            },
+            figcaption: {
+              textAlign: 'center',
+              fontStyle: 'italic',
+              color: theme('colors.gray.500'),
+            },
+            blockquote: {
+              fontStyle: 'italic',
+              borderLeftColor: theme('colors.primary.500'),
+              color: theme('colors.gray.700'),
+            },
           },
         },
         invert: {
           css: {
             a: {
-              color: theme('colors.primary.500'),
+              color: theme('colors.primary.400'),
               '&:hover': {
                 color: `${theme('colors.primary.400')}`,
               },
@@ -75,6 +97,9 @@ module.exports = {
             },
             'h1,h2,h3,h4,h5,h6': {
               color: theme('colors.gray.100'),
+            },
+            blockquote: {
+              color: theme('colors.gray.300'),
             },
           },
         },

@@ -223,7 +223,7 @@ const HeroSection = ({ dict }: { dict: Dictionary }) => {
     <div className="bg-dot relative isolate overflow-hidden bg-gray-900 py-6 sm:py-12">
       <div className="mx-auto max-w-7xl px-6 lg:px-8">
         <div className="mx-auto lg:mx-0">
-          <h1 className="text-4xl font-bold tracking-tight sm:text-6xl">{dict.home.heroGreeting}</h1>
+          <h1 className="text-display-xl font-bold">{dict.home.heroGreeting}</h1>
           <p className="mt-6 text-xl leading-8">
             {dict.home.heroBody}
           </p>

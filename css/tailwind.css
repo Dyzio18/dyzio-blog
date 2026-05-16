@@ -67,13 +67,15 @@
   /* Travel: drop-cap on first paragraph of post body */
   [data-mode='travel'] .prose > p:first-of-type::first-letter {
     font-family: var(--font-display-serif), Georgia, serif;
-    font-size: 3.75rem;
-    line-height: 0.85;
+    font-size: 4.5rem;
+    line-height: 0.8;
+    padding-top: 0.4rem;
     font-weight: 600;
     float: left;
     margin-right: 0.5rem;
     margin-top: 0.25rem;
     color: rgb(var(--primary-700));
+    font-feature-settings: 'lnum';
   }
 
   .dark [data-mode='travel'] .prose > p:first-of-type::first-letter {
@@ -90,6 +92,40 @@
 
   [data-mode='dev'] .prose code {
     font-family: var(--font-display-mono), monospace;
+  }
+
+  /* Mode-specific prose sizing */
+  [data-mode='travel'] .prose {
+    font-size: 1.0625rem;
+    line-height: 1.75;
+  }
+
+  [data-mode='dev'] .prose {
+    font-size: 0.9375rem;
+    line-height: 1.65;
+  }
+
+  /* Travel pull-quotes */
+  [data-mode='travel'] .prose blockquote {
+    font-family: var(--font-display-serif);
+    font-size: 1.25rem;
+    font-style: italic;
+  }
+
+  /* ── Base typography ──────────────────────────────────────────────────── */
+
+  body {
+    font-optical-sizing: auto;
+    font-feature-settings: 'ss01', 'cv11';
+  }
+
+  :where(h1, h2, h3, h4) {
+    text-wrap: balance;
+    font-feature-settings: 'ss01', 'cv11';
+  }
+
+  .prose p {
+    text-wrap: pretty;
   }
 
   /* Global focus ring — visible in both light and dark modes */

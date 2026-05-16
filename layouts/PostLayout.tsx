@@ -114,7 +114,7 @@ export default async function PostLayout({ content, authorDetails, next, prev, c
               )}
               {relatedPosts.length > 0 && (
                 <aside className="pt-8 pb-2">
-                  <h2 className="text-sm font-semibold uppercase tracking-wide text-gray-500 dark:text-gray-400 mb-4">
+                  <h2 className="text-eyebrow font-semibold uppercase text-gray-500 dark:text-gray-400 mb-4">
                     {dict.postLayout.relatedPostsHeading}
                   </h2>
                   <ul className="grid gap-4 sm:grid-cols-2 lg:grid-cols-3">
@@ -141,7 +141,7 @@ export default async function PostLayout({ content, authorDetails, next, prev, c
               <div className="divide-gray-200 text-sm font-medium leading-5 dark:divide-gray-700 xl:col-start-1 xl:row-start-2 xl:divide-y">
                 {tags && (
                   <div className="py-4 xl:py-8">
-                    <h2 className="text-xs uppercase tracking-wide text-gray-500 dark:text-gray-400">
+                    <h2 className="text-eyebrow uppercase text-gray-500 dark:text-gray-400">
                       {dict.postLayout.tagsHeading}
                     </h2>
                     <div className="flex flex-wrap">
@@ -155,7 +155,7 @@ export default async function PostLayout({ content, authorDetails, next, prev, c
                   <div className="flex justify-between py-4 xl:block xl:space-y-8 xl:py-8">
                     {prev && prev.path && (
                       <div>
-                        <h2 className="text-xs uppercase tracking-wide text-gray-500 dark:text-gray-400">
+                        <h2 className="text-eyebrow uppercase text-gray-500 dark:text-gray-400">
                           {dict.postLayout.previousArticle}
                         </h2>
                         <div className="text-primary-500 hover:text-primary-600 dark:hover:text-primary-400">
@@ -165,7 +165,7 @@ export default async function PostLayout({ content, authorDetails, next, prev, c
                     )}
                     {next && next.path && (
                       <div>
-                        <h2 className="text-xs uppercase tracking-wide text-gray-500 dark:text-gray-400">
+                        <h2 className="text-eyebrow uppercase text-gray-500 dark:text-gray-400">
                           {dict.postLayout.nextArticle}
                         </h2>
                         <div className="text-primary-500 hover:text-primary-600 dark:hover:text-primary-400">
