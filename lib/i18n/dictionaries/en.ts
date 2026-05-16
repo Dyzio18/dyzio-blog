@@ -58,6 +58,8 @@ export const en: Dictionary = {
     nextArticle: 'Next Article',
     back: 'Back',
     tagsHeading: 'Tags',
+    tocHeading: 'On this page',
+    relatedPostsHeading: 'Related posts',
   },
   langSwitch: {
     pl: 'PL',

@@ -4,7 +4,7 @@ import 'katex/dist/katex.css';
 import PageTitle from '@/components/PageTitle';
 import { components } from '@/components/MDXComponents';
 import { MDXLayoutRenderer } from '@/components/MDXLayoutRenderer';
-import { getAllPostsSorted, getPostBySlug, getAuthorBySlug, allCoreContent, coreContent, coreAuthor } from '@/content/queries';
+import { getAllPostsSorted, getPostBySlug, getAuthorBySlug, allCoreContent, coreContent, coreAuthor, getRelatedPosts } from '@/content/queries';
 import type { CorePost, CoreAuthor } from '@/content/queries';
 import PostSimple from '@/layouts/PostSimple';
 import PostLayout from '@/layouts/PostLayout';
@@ -40,15 +40,17 @@ export async function generateMetadata({
   const publishedAt = new Date(post.date).toISOString();
   const modifiedAt = new Date(post.lastmod || post.date).toISOString();
   const authors = authorDetails.map((author) => author.name);
+  const generatedOgUrl = `${siteMetadata.siteUrl}/api/og?slug=${encodeURIComponent(slug)}`;
   let imageList = [siteMetadata.socialBanner];
   if (post.images) {
     imageList = typeof post.images === 'string' ? [post.images] : post.images;
   }
-  const ogImages = imageList.map((img) => {
-    return {
+  const ogImages = [
+    { url: generatedOgUrl, width: 1200, height: 630 },
+    ...imageList.map((img) => ({
       url: img.includes('http') ? img : siteMetadata.siteUrl + img,
-    };
-  });
+    })),
+  ];
 
   return {
     title: post.title,
@@ -69,7 +71,7 @@ export async function generateMetadata({
       card: 'summary_large_image',
       title: post.title,
       description: post.summary,
-      images: imageList,
+      images: [generatedOgUrl, ...imageList],
     },
   };
 }
@@ -123,6 +125,7 @@ export default async function Page({ params }: { params: Promise<{ slug: string[
     return authorResults ? coreAuthor(authorResults) : null;
   }).filter(Boolean) as CoreAuthor[];
   const mainContent = coreContent(post);
+  const relatedPosts = getRelatedPosts(slug, post.tags);
   const jsonLd = post.structuredData;
   jsonLd['author'] = authorDetails.map((author) => {
     return {
@@ -139,7 +142,7 @@ export default async function Page({ params }: { params: Promise<{ slug: string[
         type="application/ld+json"
         dangerouslySetInnerHTML={{ __html: JSON.stringify(jsonLd) }}
       />
-      <Layout content={mainContent} authorDetails={authorDetails} next={next} prev={prev}>
+      <Layout content={mainContent} authorDetails={authorDetails} next={next} prev={prev} relatedPosts={relatedPosts}>
         <MDXLayoutRenderer code={post.bodyCode} components={components} toc={post.toc} />
       </Layout>
     </>

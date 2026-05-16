@@ -91,6 +91,21 @@ export function getPageBySlug(slug: string): StaticPageDocument | undefined {
   return contentRepository.getPageBySlug(slug)
 }
 
+export function getRelatedPosts(slug: string, tags: string[] | undefined, limit = 3): CorePost[] {
+  if (!tags || tags.length === 0) return [];
+  const all = allCoreContent(getAllPostsSorted())
+    .filter((p) => p.slug !== slug && !p.draft);
+  const scored = all.map((p) => {
+    const overlap = (p.tags || []).filter((t) => tags.includes(t)).length;
+    return { post: p, overlap };
+  });
+  return scored
+    .filter((s) => s.overlap > 0)
+    .sort((a, b) => b.overlap - a.overlap)
+    .slice(0, limit)
+    .map((s) => s.post);
+}
+
 export function getTagCounts(): Record<string, number> {
   const posts = getAllPosts()
   const tagCounts: Record<string, number> = {}

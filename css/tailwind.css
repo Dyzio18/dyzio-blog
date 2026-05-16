@@ -62,6 +62,34 @@
   [data-mode='dev'] :where(.rounded, .rounded-sm, .rounded-md, .rounded-lg, .rounded-xl, .rounded-2xl, .rounded-3xl, .rounded-full) {
     border-radius: 0;
   }
+
+  /* Travel: drop-cap on first paragraph of post body */
+  [data-mode='travel'] .prose > p:first-of-type::first-letter {
+    font-family: var(--font-display-serif), Georgia, serif;
+    font-size: 3.75rem;
+    line-height: 0.85;
+    font-weight: 600;
+    float: left;
+    margin-right: 0.5rem;
+    margin-top: 0.25rem;
+    color: rgb(var(--primary-700));
+  }
+
+  .dark [data-mode='travel'] .prose > p:first-of-type::first-letter {
+    color: rgb(var(--primary-300));
+  }
+
+  /* Dev: ASCII rule before h2, mono treatment for inline code */
+  [data-mode='dev'] .prose h2::before {
+    content: '── ';
+    font-family: var(--font-display-mono), monospace;
+    color: rgb(var(--primary-500));
+    user-select: none;
+  }
+
+  [data-mode='dev'] .prose code {
+    font-family: var(--font-display-mono), monospace;
+  }
 }
 
 .task-list-item::before {

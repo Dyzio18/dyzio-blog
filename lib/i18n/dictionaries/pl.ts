@@ -55,6 +55,8 @@ export type Dictionary = {
     nextArticle: string;
     back: string;
     tagsHeading: string;
+    tocHeading: string;
+    relatedPostsHeading: string;
   };
   langSwitch: {
     pl: string;
@@ -121,6 +123,8 @@ export const pl: Dictionary = {
     nextArticle: 'Następny wpis',
     back: 'Powrót',
     tagsHeading: 'Tagi',
+    tocHeading: 'Spis treści',
+    relatedPostsHeading: 'Powiązane wpisy',
   },
   langSwitch: {
     pl: 'PL',
