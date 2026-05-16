@@ -17,11 +17,12 @@ interface LayoutProps {
 
 export default function PostLayout({ content, next, prev, children }: LayoutProps) {
   const { path, slug, date = '', title = '' } = content;
+  const mode = 'mode' in content ? content.mode : undefined;
 
   return (
     <SectionContainer>
       <ScrollTopAndComment />
-      <article>
+      <article data-mode={mode}>
         <div>
           <header>
             <div className="space-y-1 border-b border-gray-200 pb-10 text-center dark:border-gray-700">

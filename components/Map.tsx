@@ -1,15 +1,12 @@
 'use client';
 
 import MapClient from './MapClient';
+import type { MapLocation } from './MapLeaflet';
 
-export interface Location {
-  name: string;
-  lat: number;
-  lng: number;
-}
+export type { MapLocation };
 
 export interface MapProps {
-  locations: Location[] | Location;
+  locations: MapLocation[] | MapLocation;
   title?: string;
   zoom?: number;
   height?: string;

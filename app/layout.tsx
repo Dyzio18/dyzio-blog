@@ -1,6 +1,6 @@
 import 'css/tailwind.css';
 
-import { Space_Grotesk } from 'next/font/google';
+import { Space_Grotesk, Fraunces, JetBrains_Mono } from 'next/font/google';
 import Analytics from '@/components/Analytics';
 import Header from '@/components/Header';
 import SectionContainer from '@/components/SectionContainer';
@@ -9,11 +9,25 @@ import { SearchProvider } from '@/components/search/SearchProvider';
 import siteMetadata from '@/data/siteMetadata';
 import { ThemeProviders } from './theme-providers';
 import { Metadata } from 'next';
+import { getDictionary } from '@/lib/i18n/getDictionary';
+import { I18nProvider } from '@/lib/i18n/I18nProvider';
 
 const space_grotesk = Space_Grotesk({
   subsets: ['latin'],
   display: 'swap',
   variable: '--font-space-grotesk',
+});
+
+const fraunces = Fraunces({
+  subsets: ['latin', 'latin-ext'],
+  display: 'swap',
+  variable: '--font-display-serif',
+});
+
+const jetbrains_mono = JetBrains_Mono({
+  subsets: ['latin', 'latin-ext'],
+  display: 'swap',
+  variable: '--font-display-mono',
 });
 
 export const metadata: Metadata = {
@@ -56,11 +70,12 @@ export const metadata: Metadata = {
   },
 };
 
-export default function RootLayout({ children }: { children: React.ReactNode }) {
+export default async function RootLayout({ children }: { children: React.ReactNode }) {
+  const { lang, dict } = await getDictionary();
   return (
     <html
-      lang={siteMetadata.language}
-      className={`${space_grotesk.variable} scroll-smooth`}
+      lang={lang}
+      className={`${space_grotesk.variable} ${fraunces.variable} ${jetbrains_mono.variable} scroll-smooth`}
       suppressHydrationWarning
     >
       <link rel="apple-touch-icon" sizes="76x76" href="/static/favicons/apple-touch-icon.png" />
@@ -73,17 +88,25 @@ export default function RootLayout({ children }: { children: React.ReactNode }) 
       <meta name="theme-color" media="(prefers-color-scheme: dark)" content="#000" />
       <link rel="alternate" type="application/rss+xml" href="/feed.xml" />
       <body className="bg-white text-black antialiased dark:bg-gray-950 dark:text-white">
+        <a
+          href="#main-content"
+          className="sr-only focus:not-sr-only focus:fixed focus:left-4 focus:top-4 focus:z-50 focus:rounded focus:bg-primary-500 focus:px-4 focus:py-2 focus:text-white"
+        >
+          {dict.a11y.skipToContent}
+        </a>
         <ThemeProviders>
-          <Analytics />
-          <SectionContainer>
-            <div className="flex h-screen flex-col justify-between font-sans">
-              <SearchProvider searchConfig={siteMetadata.search}>
-                <Header />
-                <main className="mb-auto">{children}</main>
-              </SearchProvider>
-              <Footer />
-            </div>
-          </SectionContainer>
+          <I18nProvider lang={lang} dict={dict}>
+            <Analytics />
+            <SectionContainer>
+              <div className="flex h-screen flex-col justify-between font-sans">
+                <SearchProvider searchConfig={siteMetadata.search}>
+                  <Header />
+                  <main id="main-content" className="mb-auto">{children}</main>
+                </SearchProvider>
+                <Footer />
+              </div>
+            </SectionContainer>
+          </I18nProvider>
         </ThemeProviders>
       </body>
     </html>

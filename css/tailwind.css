@@ -2,6 +2,159 @@
 @tailwind components;
 @tailwind utilities;
 
+@layer base {
+  :root {
+    /* Default mode — emerald green primary (refined brand green, distinct
+       from dev mode's brighter electric green) */
+    --primary-50: 236 253 245;
+    --primary-100: 209 250 229;
+    --primary-200: 167 243 208;
+    --primary-300: 110 231 183;
+    --primary-400: 52 211 153;
+    --primary-500: 16 185 129;
+    --primary-600: 5 150 105;
+    --primary-700: 4 120 87;
+    --primary-800: 6 95 70;
+    --primary-900: 6 78 59;
+    --primary-950: 2 44 34;
+  }
+
+  [data-mode='travel'] {
+    /* Terracotta scale (Tailwind orange-ish but warmer) */
+    --primary-50: 255 247 237;
+    --primary-100: 255 237 213;
+    --primary-200: 254 215 170;
+    --primary-300: 253 186 116;
+    --primary-400: 251 146 60;
+    --primary-500: 194 65 12;
+    --primary-600: 154 52 18;
+    --primary-700: 124 45 18;
+    --primary-800: 99 35 14;
+    --primary-900: 67 20 7;
+    --primary-950: 43 12 4;
+  }
+
+  [data-mode='dev'] {
+    /* Electric green */
+    --primary-50: 240 253 244;
+    --primary-100: 220 252 231;
+    --primary-200: 187 247 208;
+    --primary-300: 134 239 172;
+    --primary-400: 74 222 128;
+    --primary-500: 34 197 94;
+    --primary-600: 22 163 74;
+    --primary-700: 21 128 61;
+    --primary-800: 22 101 52;
+    --primary-900: 20 83 45;
+    --primary-950: 5 46 22;
+  }
+
+  /* Mode-driven display fonts on headings within the mode subtree */
+  [data-mode='travel'] :where(h1, h2, h3) {
+    font-family: var(--font-display-serif), Georgia, serif;
+  }
+
+  [data-mode='dev'] :where(h1, h2, h3) {
+    font-family: var(--font-display-mono), 'JetBrains Mono', ui-monospace, monospace;
+    letter-spacing: -0.01em;
+  }
+
+  /* Dev mode: flatten corners */
+  [data-mode='dev'] :where(.rounded, .rounded-sm, .rounded-md, .rounded-lg, .rounded-xl, .rounded-2xl, .rounded-3xl, .rounded-full) {
+    border-radius: 0;
+  }
+
+  /* Travel: drop-cap on first paragraph of post body */
+  [data-mode='travel'] .prose > p:first-of-type::first-letter {
+    font-family: var(--font-display-serif), Georgia, serif;
+    font-size: 4.5rem;
+    line-height: 0.8;
+    padding-top: 0.4rem;
+    font-weight: 600;
+    float: left;
+    margin-right: 0.5rem;
+    margin-top: 0.25rem;
+    color: rgb(var(--primary-700));
+    font-feature-settings: 'lnum';
+  }
+
+  .dark [data-mode='travel'] .prose > p:first-of-type::first-letter {
+    color: rgb(var(--primary-300));
+  }
+
+  /* Dev: ASCII rule before h2, mono treatment for inline code */
+  [data-mode='dev'] .prose h2::before {
+    content: '── ';
+    font-family: var(--font-display-mono), monospace;
+    color: rgb(var(--primary-500));
+    user-select: none;
+  }
+
+  [data-mode='dev'] .prose code {
+    font-family: var(--font-display-mono), monospace;
+  }
+
+  /* Mode-specific prose sizing */
+  [data-mode='travel'] .prose {
+    font-size: 1.0625rem;
+    line-height: 1.75;
+  }
+
+  [data-mode='dev'] .prose {
+    font-size: 0.9375rem;
+    line-height: 1.65;
+  }
+
+  /* Travel pull-quotes */
+  [data-mode='travel'] .prose blockquote {
+    font-family: var(--font-display-serif);
+    font-size: 1.25rem;
+    font-style: italic;
+  }
+
+  /* ── Base typography ──────────────────────────────────────────────────── */
+
+  body {
+    font-optical-sizing: auto;
+    font-feature-settings: 'ss01', 'cv11';
+  }
+
+  :where(h1, h2, h3, h4) {
+    text-wrap: balance;
+    font-feature-settings: 'ss01', 'cv11';
+  }
+
+  .prose p {
+    text-wrap: pretty;
+  }
+
+  /* Global focus ring — visible in both light and dark modes */
+  :focus-visible {
+    outline: 2px solid rgb(var(--primary-500));
+    outline-offset: 2px;
+    border-radius: 2px;
+  }
+
+  /* MobileNav staggered fade-in */
+  @keyframes fadeInUp {
+    from { opacity: 0; transform: translateY(8px); }
+    to { opacity: 1; transform: translateY(0); }
+  }
+
+  /* Respect reduced-motion preference — override scroll-smooth and animations */
+  @media (prefers-reduced-motion: reduce) {
+    html {
+      scroll-behavior: auto;
+    }
+    * {
+      animation-duration: 0.01ms !important;
+      animation-iteration-count: 1 !important;
+      transition-duration: 0.01ms !important;
+      scroll-behavior: auto !important;
+    }
+  }
+}
+
 .task-list-item::before {
   @apply hidden;
 }
@@ -30,18 +183,15 @@ input:-webkit-autofill:focus {
     color 600000s 0s;
 }
 
+/* bg-dot — subtler gradient, no opacity-on-parent washout */
 .bg-dot {
-  background-color: #e5e5f7;
-  opacity: 0.8;
-  background-image: radial-gradient(#444cf7 0.5px, #e5e5f7 0.5px);
+  background-color: rgb(var(--primary-50));
+  background-image: radial-gradient(rgb(var(--primary-200) / 0.4) 0.5px, transparent 0.5px);
   background-size: 10px 10px;
   border-radius: 10px;
 }
 
-/* Dark mode */
 .dark .bg-dot {
-  background-color: #444cf7;
-  opacity: 0.8;
-  background-image: radial-gradient(#e5e5f7 0.5px, #444cf7 0.5px);
-  background-size: 10px 10px;
+  background-color: rgb(var(--primary-950));
+  background-image: radial-gradient(rgb(var(--primary-700) / 0.4) 0.5px, transparent 0.5px);
 }

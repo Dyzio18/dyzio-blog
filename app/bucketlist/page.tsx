@@ -1,10 +1,12 @@
 import projectsData from '@/data/projectsData';
 import Card from '@/components/Card';
 import { genPageMetadata } from 'app/seo';
+import { getDictionary } from '@/lib/i18n/getDictionary';
 
-export const metadata = genPageMetadata({ title: 'Projects' });
+export const metadata = genPageMetadata({ title: 'Bucket list' });
 
-export default function Projects() {
+export default async function Projects() {
+  const { dict } = await getDictionary();
   const destinations = [
     'Kathmandu, Nepal [October/November 2022]',
     'Bangkok, Thailand',
@@ -63,18 +65,18 @@ export default function Projects() {
       <div className="divide-y divide-gray-200 dark:divide-gray-700">
         <div className="space-y-2 pb-8 pt-6 md:space-y-5">
           <h1 className="text-3xl font-extrabold leading-9 tracking-tight text-gray-900 dark:text-gray-100 sm:text-4xl sm:leading-10 md:text-6xl md:leading-14">
-            Bucket list
+            {dict.bucketlist.title}
           </h1>
           <p className="text-lg leading-7 text-gray-500 dark:text-gray-400">
-            They said - go far away! <br />
-            Of course, going there is definitely on my list.
+            {dict.bucketlist.subtitleLine1} <br />
+            {dict.bucketlist.subtitleLine2}
           </p>
         </div>
         <div className="container py-12">
           <ol className="-m-4 list-decimal">
             {destinations.map((destination, index) => (
               <li key={index} className="py-1 block">
-                {index + 1}. {destination}
+                {destination}
               </li>
             ))}
           </ol>
