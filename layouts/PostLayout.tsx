@@ -119,15 +119,15 @@ export default async function PostLayout({ content, authorDetails, next, prev, c
                   </h2>
                   <ul className="grid gap-4 sm:grid-cols-2 lg:grid-cols-3">
                     {relatedPosts.map((p) => (
-                      <li key={p.slug} data-mode={p.mode}>
+                      <li key={p.slug} className="group/related" data-mode={p.mode}>
                         <Link
                           href={`/${p.path}`}
-                          className="block rounded-lg border border-gray-200 p-4 transition hover:border-primary-500 dark:border-gray-800"
+                          className="block h-full rounded-xl border border-gray-200/60 bg-white/40 p-5 transition hover:-translate-y-0.5 hover:border-primary-500 hover:bg-white hover:shadow-sm dark:border-gray-800/60 dark:bg-gray-900/30 dark:hover:bg-gray-900/60"
                         >
                           <p className="text-xs uppercase tracking-wide text-gray-500 dark:text-gray-400">
                             {new Date(p.date).toLocaleDateString(siteMetadata.locale)}
                           </p>
-                          <h3 className="mt-1 text-base font-semibold leading-snug text-gray-900 dark:text-gray-100">
+                          <h3 className="mt-1 text-base font-semibold leading-snug text-gray-900 transition group-hover/related:text-primary-600 dark:text-gray-100 dark:group-hover/related:text-primary-300">
                             {p.title}
                           </h3>
                         </Link>

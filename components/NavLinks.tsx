@@ -26,8 +26,8 @@ export default function NavLinks() {
               className={
                 'hidden font-medium sm:block ' +
                 (isActive
-                  ? 'text-primary-500 border-b-2 border-primary-500 pb-0.5'
-                  : 'text-gray-900 hover:text-primary-500 dark:text-gray-100 dark:hover:text-primary-400')
+                  ? 'rounded-full bg-primary-500/12 px-3 py-1 text-primary-700 dark:bg-primary-500/15 dark:text-primary-300'
+                  : 'px-3 py-1 text-gray-700 hover:bg-gray-100 hover:text-primary-600 dark:text-gray-200 dark:hover:bg-gray-900/40 dark:hover:text-primary-300')
               }
             >
               {label}

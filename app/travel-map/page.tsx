@@ -96,20 +96,18 @@ export default async function TravelMap() {
           <p className="text-lg leading-7 text-gray-500 dark:text-gray-400">
             {dict.travelMap.subtitle}
           </p>
-          <div className="flex flex-wrap gap-x-8 gap-y-2 py-6 text-sm text-gray-600 dark:text-gray-400">
-            <span>
-              <strong className="text-gray-900 dark:text-gray-100">{countryCount}</strong>{' '}
-              {dict.travelMap.statCountries}
-            </span>
-            <span>
-              <strong className="text-gray-900 dark:text-gray-100">{cityCount}</strong>{' '}
-              {dict.travelMap.statCities}
-            </span>
-            <span>
-              <strong className="text-gray-900 dark:text-gray-100">{reportageCount}</strong>{' '}
-              {dict.travelMap.statReportages}
-            </span>
-          </div>
+          <dl className="grid grid-cols-3 gap-3 py-6 sm:flex sm:flex-wrap sm:gap-6">
+            {[
+              { label: dict.travelMap.statCountries, count: countryCount },
+              { label: dict.travelMap.statCities, count: cityCount },
+              { label: dict.travelMap.statReportages, count: reportageCount },
+            ].map((s) => (
+              <div key={s.label} className="rounded-lg border border-gray-200/60 px-4 py-3 dark:border-gray-800/60 sm:border-0 sm:p-0">
+                <dt className="text-eyebrow uppercase text-gray-500 dark:text-gray-400">{s.label}</dt>
+                <dd className="mt-1 text-2xl font-semibold text-gray-900 dark:text-gray-100">{s.count}</dd>
+              </div>
+            ))}
+          </dl>
         </div>
 
         <div className="py-8">

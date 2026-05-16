@@ -40,7 +40,7 @@ function PostCard({ post, dict }: { post: PostSummary; dict: Dictionary }) {
   const coverImage = images?.[0];
 
   return (
-    <article className="group transition-all hover:-translate-y-0.5">
+    <article className="group transition-all hover:-translate-y-0.5 hover:shadow-sm">
       <div className={`flex flex-col gap-4 ${coverImage ? 'md:flex-row md:items-start' : ''}`}>
         {coverImage && (
           <Link href={`/blog/${slug}`} className="shrink-0 md:w-1/3">
@@ -58,13 +58,13 @@ function PostCard({ post, dict }: { post: PostSummary; dict: Dictionary }) {
 
         <div className={`flex flex-col gap-3 ${coverImage ? 'md:w-2/3' : 'w-full'}`}>
           {!coverImage && post.mode === 'travel' && (
-            <div className="border-l-4 border-primary-500 pl-6">
+            <div className="border-l-2 border-primary-500/60 pl-6 transition group-hover:border-primary-500">
               <CardContent post={post} dict={dict} />
             </div>
           )}
           {!coverImage && post.mode === 'dev' && (
             <>
-              <div aria-hidden className="select-none font-mono text-xs text-primary-500">
+              <div aria-hidden className="select-none font-mono text-xs text-primary-500/70">
                 ─────────
               </div>
               <CardContent post={post} dict={dict} />
@@ -88,7 +88,7 @@ function CardContent({ post, dict }: { post: PostSummary; dict: Dictionary }) {
         <span>{readingTimeText(readingTime.text)}</span>
       </div>
       <h2 className="mt-1 text-2xl font-bold leading-tight tracking-tight">
-        <Link href={`/blog/${slug}`} className="text-gray-900 dark:text-gray-100">
+        <Link href={`/blog/${slug}`} className="text-gray-900 transition group-hover:text-primary-600 dark:text-gray-100 dark:group-hover:text-primary-300">
           {title}
         </Link>
       </h2>
@@ -125,7 +125,7 @@ function FeaturedCard({ post, dict }: { post: PostSummary; dict: Dictionary }) {
   }
 
   return (
-    <article className="group transition-all hover:-translate-y-0.5">
+    <article className="group transition-all hover:-translate-y-0.5 hover:shadow-sm">
       <Link href={`/blog/${slug}`} className="block">
         <div className="aspect-[21/9] overflow-hidden rounded-lg">
           <Image
@@ -145,7 +145,7 @@ function FeaturedCard({ post, dict }: { post: PostSummary; dict: Dictionary }) {
           <span>{readingTimeText(readingTime.text)}</span>
         </div>
         <h2 className="mt-1 text-4xl font-bold leading-tight tracking-tight md:text-5xl">
-          <Link href={`/blog/${slug}`} className="text-gray-900 dark:text-gray-100">
+          <Link href={`/blog/${slug}`} className="text-gray-900 transition group-hover:text-primary-600 dark:text-gray-100 dark:group-hover:text-primary-300">
             {title}
           </Link>
         </h2>
@@ -220,7 +220,7 @@ export default function Home({ posts, dict }: HomeProps) {
 
 const HeroSection = ({ dict }: { dict: Dictionary }) => {
   return (
-    <div className="bg-dot relative isolate overflow-hidden bg-gray-900 py-6 sm:py-12">
+    <div className="bg-dot relative isolate overflow-hidden bg-gray-900 py-12 sm:py-20">
       <div className="mx-auto max-w-7xl px-6 lg:px-8">
         <div className="mx-auto lg:mx-0">
           <h1 className="text-display-xl font-bold">{dict.home.heroGreeting}</h1>
@@ -229,18 +229,18 @@ const HeroSection = ({ dict }: { dict: Dictionary }) => {
           </p>
         </div>
         <div className="mx-auto mt-10 max-w-2xl lg:mx-0 lg:max-w-none">
-          <div className="grid grid-cols-1 gap-x-8 gap-y-6 text-base font-semibold leading-7 sm:grid-cols-2 md:flex lg:gap-x-10">
-            <Link href="/blog">
-              {dict.home.heroLinkBlog} <span aria-hidden="true">&rarr;</span>
+          <div className="flex flex-wrap gap-3">
+            <Link href="/blog" className="group/cta inline-flex items-center gap-1.5 rounded-full border border-primary-500/30 bg-white/70 px-4 py-2 text-sm font-medium text-primary-700 backdrop-blur transition hover:border-primary-500 hover:bg-primary-500 hover:text-white dark:bg-gray-900/40 dark:text-primary-300 dark:hover:bg-primary-500 dark:hover:text-white">
+              {dict.home.heroLinkBlog} <span aria-hidden="true" className="transition-transform group-hover/cta:translate-x-0.5">&rarr;</span>
             </Link>
-            <Link href="/eqchange">
-              {dict.home.heroLinkEqchange} <span aria-hidden="true">&rarr;</span>
+            <Link href="/eqchange" className="group/cta inline-flex items-center gap-1.5 rounded-full border border-primary-500/30 bg-white/70 px-4 py-2 text-sm font-medium text-primary-700 backdrop-blur transition hover:border-primary-500 hover:bg-primary-500 hover:text-white dark:bg-gray-900/40 dark:text-primary-300 dark:hover:bg-primary-500 dark:hover:text-white">
+              {dict.home.heroLinkEqchange} <span aria-hidden="true" className="transition-transform group-hover/cta:translate-x-0.5">&rarr;</span>
             </Link>
-            <Link href="/bucketlist">
-              {dict.home.heroLinkBucketlist} <span aria-hidden="true">&rarr;</span>
+            <Link href="/bucketlist" className="group/cta inline-flex items-center gap-1.5 rounded-full border border-primary-500/30 bg-white/70 px-4 py-2 text-sm font-medium text-primary-700 backdrop-blur transition hover:border-primary-500 hover:bg-primary-500 hover:text-white dark:bg-gray-900/40 dark:text-primary-300 dark:hover:bg-primary-500 dark:hover:text-white">
+              {dict.home.heroLinkBucketlist} <span aria-hidden="true" className="transition-transform group-hover/cta:translate-x-0.5">&rarr;</span>
             </Link>
-            <Link href="/about">
-              {dict.home.heroLinkContact} <span aria-hidden="true">&rarr;</span>
+            <Link href="/about" className="group/cta inline-flex items-center gap-1.5 rounded-full border border-primary-500/30 bg-white/70 px-4 py-2 text-sm font-medium text-primary-700 backdrop-blur transition hover:border-primary-500 hover:bg-primary-500 hover:text-white dark:bg-gray-900/40 dark:text-primary-300 dark:hover:bg-primary-500 dark:hover:text-white">
+              {dict.home.heroLinkContact} <span aria-hidden="true" className="transition-transform group-hover/cta:translate-x-0.5">&rarr;</span>
             </Link>
           </div>
         </div>

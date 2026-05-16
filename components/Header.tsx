@@ -8,7 +8,7 @@ import NavLinks from './NavLinks';
 
 const Header = () => {
   return (
-    <header className="flex items-center justify-between py-10">
+    <header className="sticky top-0 z-30 flex items-center justify-between border-b border-gray-200/60 py-6 backdrop-blur supports-[backdrop-filter]:bg-white/70 dark:border-gray-800/60 supports-[backdrop-filter]:dark:bg-gray-950/70">
       <div>
         <Link href="/" aria-label={siteMetadata.headerTitle}>
           <div className="flex items-center justify-between">

@@ -135,6 +135,12 @@
     border-radius: 2px;
   }
 
+  /* MobileNav staggered fade-in */
+  @keyframes fadeInUp {
+    from { opacity: 0; transform: translateY(8px); }
+    to { opacity: 1; transform: translateY(0); }
+  }
+
   /* Respect reduced-motion preference — override scroll-smooth and animations */
   @media (prefers-reduced-motion: reduce) {
     html {
